@@ -8,9 +8,7 @@ import burgerIngredientsStyle from '../BurgerIngredients/BurgerIngredients.modul
 import PropTypes from "prop-types";
 import { ingredientPropTypes } from '../../types/PropTypes';
 
-
 const IngredientsItem = ({ ingredient }) => {
-  console.log(ingredient)
   return (
     <div className={ burgerIngredientsStyle.card }>
       <img className={ `${burgerIngredientsStyle.image} ml-4 mr-4` } src={ ingredient.image } alt="фото" />
@@ -46,8 +44,8 @@ const BurgersIngredients = (props) => {
 
     const tabSelect = (tab) => {
       setCurrent(tab);
-      console.log(tab)
-      if (tab) scrollElement[tab].scrollIntoView({ behavior: "smooth" });
+      console.log(tab);
+      if (tab & scrollElement[tab]) scrollElement[tab].scrollIntoView({ behavior: "smooth" });
     };
 
     return (
@@ -93,12 +91,12 @@ const BurgersIngredients = (props) => {
             Начинки
           </h2>
           <ul className={ `${burgerIngredientsStyle.list} pt-6 pb-10` }>
-          {mains.map((item, index) => (
-            <li key={index}>
-              <IngredientsItem ingredient={ item } />
-            </li>
-            ))
-          }
+            {mains.map((item, index) => (
+              <li key={index}>
+                <IngredientsItem ingredient={ item } />
+              </li>
+              ))
+            }
           </ul>
         </div>
       </div>
@@ -106,8 +104,7 @@ const BurgersIngredients = (props) => {
   }
 
   BurgersIngredients.propTypes ={
-    ingredients: PropTypes.shape({
-     data: PropTypes.arrayOf(ingredientPropTypes)}).isRequired
+     ingredients: PropTypes.arrayOf(ingredientPropTypes).isRequired
   };
 
 export default BurgersIngredients;

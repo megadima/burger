@@ -10,12 +10,12 @@ function App() {
   return (
     <div className="App">
       <AppHeader />
-      <div className={`${style.burger_constructor_wrap} mb-10`} >
+      <main className={`${style.burger_constructor_wrap} mb-10`} >
         <div className={ style.burger_constructor }>
           <BurgersIngredients ingredients={api}/>
           <BurgerConstructor ingredients={api}/>
         </div>
-      </div>
+      </main>
     </div>
   );
 }
