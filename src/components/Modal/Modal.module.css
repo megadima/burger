@@ -1,0 +1,49 @@
+.modal{
+    position: absolute;
+    width: 720px;
+    border-radius: 40px;
+    background-color: #1C1C21;
+    z-index: 12;
+    border-color: rgba(76, 76, 255, 0.2);
+    border-width: 1px;
+    border-style: solid;
+}
+
+.header{
+    display: flex;
+    margin: 40px 0 0 40px;
+    justify-content: space-between;
+    height: 64px;
+    width: 640px;
+    align-items: center;
+}
+
+.close_button{
+    position: absolute;
+    top:60px;
+    right: 40px;
+    background: none;
+    border: none;
+    padding: 0;
+    height: 24px;
+    cursor: pointer;
+}
+
+.wrapper{
+    height: 100%;
+    width: 100%;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+}
+
+.overlay{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index:11;
+    background-color: #000000;
+    opacity: 0.6;
+}
