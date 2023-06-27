@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import style from './App.module.css';
 import AppHeader from '../AppHeader/AppHeader';
 import BurgersIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
+import { getIngredients } from '../../utils/burger-api';
 
 function App() {
-  const API = "https://norma.nomoreparties.space/api/ingredients";
   const [state, setState] = useState({
     data: [],
     isLoading: false,
@@ -14,10 +14,9 @@ function App() {
 
   const getData = () => {
     setState({...state, isLoading: true});
-    fetch(API)
-    .then(res => res.json())
-    .then(res => setState({...state, data: res.data, isLoading: false}))
-    .catch(e => setState({...state, isLoading: false, hasError: true}));
+    getIngredients()
+    .then(res => setState({ ...state, data: res.data, isLoading: false }))
+    .catch(e => setState({ ...state, isLoading: false, hasError: true }));
   }
 
   useEffect(() => {
