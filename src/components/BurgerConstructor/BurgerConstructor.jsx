@@ -7,6 +7,9 @@ import {
 import burgerConstructorStyle from '../BurgerConstructor/BurgerConstructor.module.css';
 import { ingredientPropTypes } from "../../types/PropTypes";
 import PropTypes from "prop-types";
+import OrderDetails from "../OrderDetails/OrderDetails";
+import Modal from '../Modal/Modal';
+import { useState } from "react";
 
 const IngredientsItem = ({ ingredient }) => {
 
@@ -28,6 +31,8 @@ IngredientsItem.propTypes = {
 const BurgerConstructor = (props) => {
   const buns = props.ingredients.filter((el) => el.type === "bun"),
         saucesAndMains = props.ingredients.filter((el) => el.type !== "bun");
+
+  const [showModal, setShowModal] = useState(false); 
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'end' }}>
@@ -59,9 +64,13 @@ const BurgerConstructor = (props) => {
           <p className="text text_type_digits-medium">610</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button htmlType="button" type="primary" size="large">
+        <Button htmlType="button" type="primary" size="large" onClick={() => setShowModal(true)}>
           Оформить заказ
         </Button>
+        {showModal && 
+        <Modal onClose={() => setShowModal(false)}>
+          <OrderDetails/>
+        </Modal>}
       </div>
     </div>
   )

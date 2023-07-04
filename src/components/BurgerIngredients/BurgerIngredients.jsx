@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Tab,
   CurrencyIcon,
@@ -7,21 +7,25 @@ import {
 import burgerIngredientsStyle from '../BurgerIngredients/BurgerIngredients.module.css';
 import PropTypes from "prop-types";
 import { ingredientPropTypes } from '../../types/PropTypes';
+import Modal from '../Modal/Modal';
+import IngredientDetails from '../IngredientDetails/IngredientDetails';
 
 const IngredientsItem = ({ ingredient }) => {
+  const [showModal, setShowModal] = useState(false);
+  
   return (
-    <div className={ burgerIngredientsStyle.card }>
+    <div className={ burgerIngredientsStyle.card } onClick={() => setShowModal(true)}>
+      {showModal && 
+        <Modal onClose={() => setShowModal(false)} header="Детали ингредиента">
+          <IngredientDetails data={ingredient}/>
+        </Modal>}
       <img className={ `${burgerIngredientsStyle.image} ml-4 mr-4` } src={ ingredient.image } alt="фото" />
       <Counter className={ burgerIngredientsStyle.count } count={1} size="default" extraClass="m-1" />
       <div className={ `${burgerIngredientsStyle.price} mt-1 mb-1` }>
-        <p>
-          { ingredient.price }
-        </p>
+        <p>{ ingredient.price }</p>
         <CurrencyIcon />
       </div>
-      <p>
-        { ingredient.name }
-      </p>
+      <p>{ ingredient.name }</p>
     </div>
   );
 }
@@ -44,8 +48,7 @@ const BurgersIngredients = (props) => {
 
     const tabSelect = (tab) => {
       setCurrent(tab);
-      console.log(tab);
-      if (tab & scrollElement[tab]) scrollElement[tab].scrollIntoView({ behavior: "smooth" });
+      if (tab && scrollElement[tab]) scrollElement[tab].scrollIntoView({ behavior: "smooth" });
     };
 
     return (
@@ -103,7 +106,7 @@ const BurgersIngredients = (props) => {
     )
   }
 
-  BurgersIngredients.propTypes ={
+  BurgersIngredients.propTypes = {
      ingredients: PropTypes.arrayOf(ingredientPropTypes).isRequired
   };
 
