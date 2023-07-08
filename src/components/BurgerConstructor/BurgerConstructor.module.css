@@ -1,3 +1,10 @@
+.container{
+  display: flex; 
+  flex-direction: column;
+  gap: 10px;
+  align-items: end; 
+}
+
 .list{
   max-height: 664px;
   overflow-y: scroll;
@@ -36,4 +43,8 @@
   display: flex;
   gap: 8px;
   align-items: center;
+}
+
+.constructor_element__wrapper{
+  width: 100%;
 }

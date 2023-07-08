@@ -14,41 +14,41 @@ function App() {
   });
 
   const getData = () => {
-    setState({...state, isLoading: true});
+    setState({ ...state, isLoading: true });
     getIngredients()
-    .then(res => setState({ ...state, data: res.data, isLoading: false }))
-    .catch(e => setState({ ...state, isLoading: false, hasError: true }));
+      .then(res => setState({ ...state, data: res.data, isLoading: false }))
+      .catch(e => setState({ ...state, isLoading: false, hasError: true }));
   }
 
   useEffect(() => {
     getData();
   }, []);
 
-  const {data, isLoading, hasError} = state;
+  const { data, isLoading, hasError } = state;
   return (
-      <div className="App">
-        <AppHeader />
-        <main className={`${style.burger_constructor_wrap} mb-10`} >
-          <div className={ style.burger_constructor }>
-          {isLoading && 
-            <p className = {"text text_type_main-large"} style = {{margin: "0 auto"}}>
-            Загрузка
+    <div className="App">
+      <AppHeader />
+      <main className={`${style.burger_constructor_wrap} mb-10`} >
+        <div className={style.burger_constructor}>
+          {isLoading &&
+            <p className={"text text_type_main-large"} style={{ margin: "0 auto" }}>
+              Загрузка
             </p>
           }
-          {hasError && 
-            <p className = {"text text_type_main-large"} style = {{margin: "0 auto"}}>
-            Ошибка при получении данных с сервера!
+          {hasError &&
+            <p className={"text text_type_main-large"} style={{ margin: "0 auto" }}>
+              Ошибка при получении данных с сервера!
             </p>
           }
           {!isLoading && !hasError && data.length &&
             <IngredientsContext.Provider value={data}>
-              <BurgersIngredients/>
+              <BurgersIngredients />
               <BurgerConstructor />
             </IngredientsContext.Provider>
           }
-          </div>
-        </main>
-      </div>
+        </div>
+      </main>
+    </div>
   );
 }
 

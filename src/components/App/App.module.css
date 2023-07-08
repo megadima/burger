@@ -15,7 +15,6 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -39,7 +38,7 @@
 
 .burger_constructor {
   display: flex;
-  align-items: end;
+  align-items: flex-end;
   max-width: 1280px;
   width: 100%;
   justify-content: space-between;

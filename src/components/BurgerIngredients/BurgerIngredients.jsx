@@ -1,47 +1,17 @@
-import React, { useContext, useState } from 'react';
-import {
-  Tab,
-  CurrencyIcon,
-  Counter,
-} from "@ya.praktikum/react-developer-burger-ui-components";
-import burgerIngredientsStyle from '../BurgerIngredients/BurgerIngredients.module.css';
-import { ingredientPropTypes } from '../../types/PropTypes';
-import Modal from '../Modal/Modal';
-import IngredientDetails from '../IngredientDetails/IngredientDetails';
+import React, { useContext, useMemo } from 'react';
+import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+import styles from '../BurgerIngredients/BurgerIngredients.module.css';
 import { IngredientsContext } from '../../contexts/IngredientsContext.js';
-
-const IngredientsItem = ({ ingredient }) => {
-  const [showModal, setShowModal] = useState(false);
-
-  return (
-    <div className={burgerIngredientsStyle.card} onClick={() => setShowModal(true)}>
-      {showModal &&
-        <Modal onClose={() => setShowModal(false)} header="Детали ингредиента">
-          <IngredientDetails data={ingredient} />
-        </Modal>}
-      <img className={`${burgerIngredientsStyle.image} ml-4 mr-4`} src={ingredient.image} alt="фото" />
-      <Counter className={burgerIngredientsStyle.count} count={1} size="default" extraClass="m-1" />
-      <div className={`${burgerIngredientsStyle.price} mt-1 mb-1`}>
-        <p>{ingredient.price}</p>
-        <CurrencyIcon />
-      </div>
-      <p>{ingredient.name}</p>
-    </div>
-  );
-}
-
-IngredientsItem.propTypes = {
-  ingredient: ingredientPropTypes.isRequired
-};
+import IngredientsItem from '../IngredientsItem/IngredientsItem.jsx';
 
 const BurgersIngredients = () => {
 
   const ingredients = useContext(IngredientsContext);
 
-  const [current, setCurrent] = React.useState('one')
-  const buns = ingredients.filter((el) => el.type === "bun"),
-    sauces = ingredients.filter((el) => el.type === "sauce"),
-    mains = ingredients.filter((el) => el.type === "main");
+  const [current, setCurrent] = React.useState('one');
+  const buns = useMemo(() => ingredients.filter((el) => el.type === "bun"), [ingredients])
+  const sauces = useMemo(() => ingredients.filter((el) => el.type === "sauce"), [ingredients])
+  const mains = useMemo(() => ingredients.filter((el) => el.type === "main"), [ingredients])
 
   const scrollElement = {
     'one': document.querySelector('#one'),
@@ -51,7 +21,7 @@ const BurgersIngredients = () => {
 
   const tabSelect = (tab) => {
     setCurrent(tab);
-    if (tab && scrollElement[tab]) scrollElement[tab].scrollIntoView({ behavior: "smooth" });
+    document.getElementById('scrollList').scrollTop = scrollElement[tab].offsetTop-285;
   };
 
   return (
@@ -59,7 +29,7 @@ const BurgersIngredients = () => {
       <h1 className="text text_type_main-large pt-10 pb-5">
         Соберите бургер
       </h1>
-      <div style={{ display: 'flex' }}>
+      <div className={styles.tabs__wrapper}>
         <Tab value="one" active={current === 'one'} onClick={tabSelect}>
           Булки
         </Tab>
@@ -70,11 +40,11 @@ const BurgersIngredients = () => {
           Начинки
         </Tab>
       </div>
-      <div className={`${burgerIngredientsStyle.container} pt-10`}>
+      <div className={`${styles.container} pt-10`} id="scrollList">
         <h2 className="text text_type_main-medium" id="one">
           Булки
         </h2>
-        <ul className={`${burgerIngredientsStyle.list} pt-6 pb-10`}>
+        <ul className={`${styles.list} pt-6 pb-10`}>
           {buns.map((item, index) => (
             <li key={index}>
               <IngredientsItem ingredient={item} />
@@ -82,10 +52,10 @@ const BurgersIngredients = () => {
           ))
           }
         </ul>
-        <h2 className="text text_type_main-medium" id="two">
+        <h2 className="scrollListHeader text text_type_main-medium" id="two">
           Соусы
         </h2>
-        <ul className={`${burgerIngredientsStyle.list} pt-6 pb-10`}>
+        <ul className={`${styles.list} pt-6 pb-10`}>
           {sauces.map((item, index) => (
             <li key={index}>
               <IngredientsItem ingredient={item} />
@@ -96,7 +66,7 @@ const BurgersIngredients = () => {
         <h2 className="text text_type_main-medium" id="three">
           Начинки
         </h2>
-        <ul className={`${burgerIngredientsStyle.list} pt-6 pb-10`}>
+        <ul className={`${styles.list} pt-6 pb-10`}>
           {mains.map((item, index) => (
             <li key={index}>
               <IngredientsItem ingredient={item} />
