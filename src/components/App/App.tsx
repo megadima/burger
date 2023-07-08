@@ -4,6 +4,7 @@ import AppHeader from '../AppHeader/AppHeader';
 import BurgersIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 import { getIngredients } from '../../utils/burger-api';
+import { IngredientsContext } from '../../contexts/IngredientsContext';
 
 function App() {
   const [state, setState] = useState({
@@ -40,10 +41,10 @@ function App() {
             </p>
           }
           {!isLoading && !hasError && data.length &&
-            <>
-              <BurgersIngredients ingredients={data}/>
-              <BurgerConstructor ingredients={data}/>
-            </>
+            <IngredientsContext.Provider value={data}>
+              <BurgersIngredients/>
+              <BurgerConstructor />
+            </IngredientsContext.Provider>
           }
           </div>
         </main>

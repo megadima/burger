@@ -6,10 +6,10 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerConstructorStyle from '../BurgerConstructor/BurgerConstructor.module.css';
 import { ingredientPropTypes } from "../../types/PropTypes";
-import PropTypes from "prop-types";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import Modal from '../Modal/Modal';
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { IngredientsContext } from "../../contexts/IngredientsContext.js";
 
 const IngredientsItem = ({ ingredient }) => {
 
@@ -28,9 +28,21 @@ IngredientsItem.propTypes = {
   ingredient : ingredientPropTypes.isRequired
 };
 
-const BurgerConstructor = (props) => {
-  const buns = props.ingredients.filter((el) => el.type === "bun"),
-        saucesAndMains = props.ingredients.filter((el) => el.type !== "bun");
+const BurgerConstructor = () => {
+
+  const ingredients = useContext(IngredientsContext);
+  
+  const [currentBun, setCurrentBun] = useState(
+    ingredients.filter((el) => el.type === "bun")[0]
+  );
+
+  const [filling, setfilling] = useState(
+    ingredients.filter((el) => el.type !== "bun")
+  );
+
+  const totalPrice = 
+  filling.map((v) => v.price).reduce((accum, price) => accum + price)
+  + currentBun.price*2;
 
   const [showModal, setShowModal] = useState(false); 
 
@@ -39,12 +51,12 @@ const BurgerConstructor = (props) => {
       <ConstructorElement
         type="top"
         isLocked={true}
-        text={`${buns[0].name} '(вверх)'`}
-        price={buns[0].price}
-        thumbnail={buns[0].image_mobile}
+        text={`${currentBun.name} '(вверх)'`}
+        price={currentBun.price}
+        thumbnail={currentBun.image_mobile}
       />
       <ul className={ burgerConstructorStyle.list }>
-        {saucesAndMains.map((item, index) => (
+        {filling.map((item, index) => (
           <li className={ burgerConstructorStyle.item } key={index}>
             <DragIcon type="primary" />
             <IngredientsItem ingredient={ item } />
@@ -55,13 +67,13 @@ const BurgerConstructor = (props) => {
       <ConstructorElement
         type="bottom"
         isLocked={true}
-        text={`${buns[0].name} '(низ)'`}
-        price={buns[0].price}
-        thumbnail={buns[0].image_mobile}
+        text={`${currentBun.name} '(низ)'`}
+        price={currentBun.price}
+        thumbnail={currentBun.image_mobile}
       />
       <div className={`${burgerConstructorStyle.order} pt-10 pr-4`}>
         <div className={`${burgerConstructorStyle.price}`}>
-          <p className="text text_type_digits-medium">610</p>
+          <p className="text text_type_digits-medium">{totalPrice}</p>
           <CurrencyIcon type="primary" />
         </div>
         <Button htmlType="button" type="primary" size="large" onClick={() => setShowModal(true)}>
@@ -69,17 +81,12 @@ const BurgerConstructor = (props) => {
         </Button>
         {showModal && 
         <Modal onClose={() => setShowModal(false)}>
-          <OrderDetails/>
+          <OrderDetails orderItemsIds={[...filling, currentBun, currentBun].map((v) => v._id)}/>
         </Modal>}
       </div>
     </div>
   )
 }
-
-
-BurgerConstructor.propTypes ={
-  ingredients: PropTypes.arrayOf(ingredientPropTypes).isRequired
-};
 
 export default BurgerConstructor;
 
