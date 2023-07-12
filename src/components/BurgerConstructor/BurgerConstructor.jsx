@@ -15,9 +15,9 @@ const BurgerConstructor = () => {
 
   const ingredients = useContext(IngredientsContext);
 
-  const [currentBun, setCurrentBun] = useState(useMemo(() => ingredients.filter((el) => el.type === "bun")[0], [ingredients]));
+  const currentBun = useMemo(() => ingredients.filter((el) => el.type === "bun")[0], [ingredients]);
 
-  const [filling, setFilling] = useState(useMemo(() => ingredients.filter((el) => el.type !== "bun"), [ingredients]));
+  const filling = useMemo(() => ingredients.filter((el) => el.type !== "bun"), [ingredients]);
   const [showErrorModal, setShowErrorModal] = useState(false);
 
 
