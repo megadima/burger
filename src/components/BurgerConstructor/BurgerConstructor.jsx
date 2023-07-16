@@ -27,10 +27,11 @@ const BurgerConstructor = () => {
   ), [filling, currentBun])
 
   const totalPrice = useMemo(() => {
-    const fillingPrices = filling.map((v) => v.item.price);
     let totalPrice = currentBun?.price ? currentBun.price * 2 : 0
-    if (fillingPrices.length)
+    if (filling.length) {
+      const fillingPrices = filling.map((v) => v.item.price);
       totalPrice += fillingPrices.reduce((accum, price) => accum + price)
+    }
     return totalPrice
   }, [filling, currentBun])
 
@@ -54,7 +55,7 @@ const BurgerConstructor = () => {
       <div className={styles.bun}>
         <ConstructorElement
           type="top"
-          isLocked={true}
+          isLocked
           text={`${currentBun.name} (верх)`}
           price={currentBun.price}
           thumbnail={currentBun.image_mobile}
@@ -73,7 +74,7 @@ const BurgerConstructor = () => {
       <div className={styles.bun}>
         <ConstructorElement
           type="bottom"
-          isLocked={true}
+          isLocked
           text={`${currentBun.name} (низ)`}
           price={currentBun.price}
           thumbnail={currentBun.image_mobile}

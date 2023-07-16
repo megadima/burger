@@ -27,14 +27,6 @@ const OrderDetails = ({ data }) => {
   )
 }
 
-// OrderDetails.propTypes = PropTypes.shape({
-//   data: PropTypes.shape({
-//     success: PropTypes.bool,
-//     order: PropTypes.shape({
-//       number: PropTypes.number
-//     }),
-//     name: PropTypes.string
-//   })
 OrderDetails.propTypes = {
   data: PropTypes.shape({
     success: PropTypes.bool,

@@ -1,6 +1,7 @@
 import uuid from "react-uuid";
 import { ADD_TO_CART, REMOVE_FROM_CART, CHANGE_ITEM_POSITION } from "../actions/cart";
 import emptyImage from '../../components/BurgerConstructor/Empty.jpg';
+import { BUN } from "../../components/helpers/IngredientCategories.js";
 
 const initialState = {
   bun: {
@@ -9,7 +10,6 @@ const initialState = {
     image_mobile: emptyImage
   },
   filling: [],
-  totalPrice: 0,
 };
 
 export const cartReducer = (state = initialState, action) => {
@@ -22,24 +22,21 @@ export const cartReducer = (state = initialState, action) => {
 
   switch (action.type) {
     case ADD_TO_CART: {
-      if (action.item.type !== "bun") {
+      if (action.item.type !== BUN) {
         return {
           ...state,
           filling: [...state.filling, {key: uuid(), item: action.item}],
-          totalPrice: state.totalPrice + action.item.price,
         };
       } else {
         return {
           ...state,
           bun: action.item,
-          totalPrice: state.totalPrice + action.item.price * 2
         }
       }
     }
     case REMOVE_FROM_CART: {
         return {
           ...state,
-          totalPrice: state.totalPrice-action.item.price,
           filling: [...state.filling].filter(item => item.key !== action.key),
         }
     }

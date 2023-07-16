@@ -3,15 +3,16 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from '../BurgerIngredients/BurgerIngredients.module.css';
 import IngredientsItem from '../IngredientsItem/IngredientsItem.jsx';
 import { useSelector } from 'react-redux';
+import { BUN, MAIN, SAUCE } from '../helpers/IngredientCategories.js';
 
 const BurgersIngredients = () => {
 
   const ingredients = useSelector(store => store.ingredients.ingredients)
 
   const [currentTab, setCurrentTab] = React.useState('buns');
-  const buns = useMemo(() => ingredients.filter((el) => el.type === "bun"), [ingredients])
-  const sauces = useMemo(() => ingredients.filter((el) => el.type === "sauce"), [ingredients])
-  const mains = useMemo(() => ingredients.filter((el) => el.type === "main"), [ingredients])
+  const buns = useMemo(() => ingredients.filter((el) => el.type === BUN), [ingredients])
+  const sauces = useMemo(() => ingredients.filter((el) => el.type === SAUCE), [ingredients])
+  const mains = useMemo(() => ingredients.filter((el) => el.type === MAIN), [ingredients])
 
   const scrollElement = {
     'buns': document.querySelector('#buns'),

@@ -14,13 +14,7 @@ function App() {
 
   const hasError = useSelector(store => store.ingredients.ingredientsFailed)
   const isLoading = useSelector(store => store.ingredients.ingredientsRequest);
-
-  // const getData = () => {
-  //   setState({ ...state, isLoading: true });
-  //   getIngredients()
-  //     .then(res => setState({ ...state, data: res.data, isLoading: false }))
-  //     .catch(e => setState({ ...state, isLoading: false, hasError: true }));
-  // }
+  
   return (
     <div className="App">
       <AppHeader />
