@@ -26,3 +26,8 @@
 .tabs__wrapper {
   display: flex;
 }
+
+.title{
+  display: grid;
+  grid-column: span 2;
+}

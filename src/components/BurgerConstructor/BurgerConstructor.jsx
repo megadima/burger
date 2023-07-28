@@ -1,83 +1,85 @@
 import {
   ConstructorElement,
-  DragIcon,
   CurrencyIcon,
   Button
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from '../BurgerConstructor/BurgerConstructor.module.css';
 import OrderDetails from "../OrderDetails/OrderDetails";
 import Modal from '../Modal/Modal';
-import { useContext, useMemo, useState } from "react";
-import { IngredientsContext } from "../../contexts/IngredientsContext.js";
-import { getOrderDetails } from "../../utils/burger-api.js";
+import { useMemo, useState } from "react";
+import { useSelector } from 'react-redux';
+import { useDrop } from 'react-dnd';
+import { useDispatch } from 'react-redux';
+import { ADD_TO_CART } from "../../services/actions/cart.js";
+import CartFillingItem from "../CartFillingItem/CartFillingItem.jsx";
+import { submitOrder } from "../../services/actions/order.js";
 
 const BurgerConstructor = () => {
+  const [showModal, setShowModal] = useState(false);
 
-  const ingredients = useContext(IngredientsContext);
+  const dispatch = useDispatch();
 
-  const currentBun = useMemo(() => ingredients.filter((el) => el.type === "bun")[0], [ingredients]);
+  const currentBun = useSelector(store => store.cart.bun);
+  const filling = useSelector(store => store.cart.filling);
+  const orderItemsIds = useMemo(() => [...filling, currentBun, currentBun]
+  .map((elem) => 
+    elem.key ? elem.item._id : elem._id  // у булочек нет ключа
+  ), [filling, currentBun])
 
-  const filling = useMemo(() => ingredients.filter((el) => el.type !== "bun"), [ingredients]);
-  const [showErrorModal, setShowErrorModal] = useState(false);
+  const totalPrice = useMemo(() => {
+    let totalPrice = currentBun?.price ? currentBun.price * 2 : 0
+    if (filling.length) {
+      const fillingPrices = filling.map((v) => v.item.price);
+      totalPrice += fillingPrices.reduce((accum, price) => accum + price)
+    }
+    return totalPrice
+  }, [filling, currentBun])
 
+  const [,dropTargetRef] = useDrop({
+    accept: 'ingredient',
+    drop(item) {
+      onDropHandler(item);
+    }
+  })
 
-
-  const orderItemsIds = useMemo(() => [...filling, currentBun, currentBun].map((v) => v._id), [filling, currentBun])
-
-  const [orderState, setOrderState] = useState({
-    data: [],
-    isLoading: false,
-    hasError: false
-  });
-
-  const [showOrderModal, setShowOrderModal] = useState(false);
-
-  const createOrder = () => {
-    setOrderState({ ...orderState, isLoading: true });
-    getOrderDetails(orderItemsIds)
-      .then(res => setOrderState({ ...orderState, data: res, isLoading: false }))
-      .then(() => setShowOrderModal(true))
-      .catch(e => setOrderState({ ...orderState, isLoading: false, hasError: true }));
+  const onDropHandler = (item) => {
+    dispatch({
+      type: ADD_TO_CART,
+      item: item,
+    })
   }
 
-  const totalPrice =
-  useMemo(() => 
-    filling.map((v) => v.price).reduce((accum, price) => accum + price)
-    + currentBun.price * 2, [filling, currentBun])
-
-
-  const { orderData, orderIsLoadind, orderHasError } = orderState;
+  const { orderRequest, orderFailed, message, res} = useSelector(store => store.order);
   return (
-    <div className={styles.container}>
-      <ConstructorElement
-        type="top"
-        isLocked={true}
-        text={`${currentBun.name} '(вверх)'`}
-        price={currentBun.price}
-        thumbnail={currentBun.image_mobile}
-      />
+    <div ref={dropTargetRef} className={styles.container}>
+      <div className={styles.bun}>
+        <ConstructorElement
+          type="top"
+          isLocked
+          text={`${currentBun.name} (верх)`}
+          price={currentBun.price}
+          thumbnail={currentBun.image_mobile}
+        />
+      </div>
       <ul className={styles.list}>
-        {filling.map((item, index) => (
-          <li className={styles.item} key={index}>
-            <DragIcon type="primary" />
-            <div className={styles.constructor_element__wrapper}>
-              <ConstructorElement
-                text={item.name}
-                price={item.price}
-                thumbnail={item.image_mobile}
-              />
-            </div>
+        {!filling.length
+        ? <li style={{textAlign: 'center'}}>
+            <p className="text text text_type_main-default">Перетяните сюда начинку (или булочку)</p>
           </li>
-        ))
+        : filling.map((elem, index) => (
+          <CartFillingItem elem={elem} index={index} key={index} />
+          ))
         }
       </ul>
-      <ConstructorElement
-        type="bottom"
-        isLocked={true}
-        text={`${currentBun.name} '(низ)'`}
-        price={currentBun.price}
-        thumbnail={currentBun.image_mobile}
-      />
+      <div className={styles.bun}>
+        <ConstructorElement
+          type="bottom"
+          isLocked
+          text={`${currentBun.name} (низ)`}
+          price={currentBun.price}
+          thumbnail={currentBun.image_mobile}
+        />
+      </div>
       <div className={`${styles.order} pt-10 pr-4`}>
         <div className={`${styles.price}`}>
           <p className="text text_type_digits-medium">{totalPrice}</p>
@@ -88,20 +90,31 @@ const BurgerConstructor = () => {
           type="primary"
           size="large"
           onClick={() => {
-            createOrder();
-          }}>
-          {orderIsLoadind ? "Загрузка" : "Оформить заказ"}
+            if (currentBun.price!==null && !orderRequest)
+              dispatch(submitOrder(orderItemsIds))
+            setShowModal(true)
+          }}
+        >
+          {orderRequest && !orderFailed ? "Загрузка" : "Оформить заказ"}
         </Button>
 
-        {showOrderModal &&
-          <Modal onClose={() => setShowOrderModal(false)}>
-            <OrderDetails data={orderState.data} />
-          </Modal>}
-
-        {showErrorModal &&
-          <Modal onClose={() => setShowErrorModal(false)}>
-            <p className="text text text_type_main-default">Ошибка при получении данных с сервера</p>
-          </Modal>}
+        {showModal &&
+          <Modal onClose={() => setShowModal(false)}>
+            {currentBun.price!==null
+            ?
+              (!orderRequest && !orderFailed
+              ? <OrderDetails data={res} /> 
+              : <p className="text text text_type_main-default" style={{textAlign: 'center'}}>
+                {message}
+                </p>
+              )
+            :
+              <p className="text text text_type_main-default" style={{textAlign: 'center'}}>
+                Добавьте булочку              
+              </p>
+            }
+          </Modal>
+        }
       </div>
     </div>
   )

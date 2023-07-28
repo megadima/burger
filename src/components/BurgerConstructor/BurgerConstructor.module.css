@@ -1,11 +1,18 @@
 .container{
   display: flex; 
   flex-direction: column;
-  gap: 10px;
-  align-items: end; 
+  align-items: flex-end;
+  max-width: 600px;
+  width: 100%;
+}
+
+.bun{
+  padding-left: 32px;
 }
 
 .list{
+  width: 100%;
+  min-height: 50px;
   max-height: 664px;
   overflow-y: scroll;
   list-style-type: none;
@@ -22,18 +29,6 @@
   background-color: #8585AD
 }
 
-.item{
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 16px;
-}
-
-.item:last-child{
-  margin: 0;
-}
-
 .order{
   display: flex;
   gap: 40px;
@@ -45,6 +40,4 @@
   align-items: center;
 }
 
-.constructor_element__wrapper{
-  width: 100%;
-}
+

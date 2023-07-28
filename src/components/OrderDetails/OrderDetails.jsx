@@ -4,6 +4,7 @@ import ok_image from './accept.jpg';
 
 const OrderDetails = ({ data }) => {
   const success = data?.success;
+  console.log(data)
 
   return (
     <div className={styles.content}>
@@ -27,7 +28,13 @@ const OrderDetails = ({ data }) => {
 }
 
 OrderDetails.propTypes = {
-  orderItemsIds: PropTypes.arrayOf(PropTypes.string)
-};
+  data: PropTypes.shape({
+    success: PropTypes.bool,
+    order: PropTypes.shape({
+      number: PropTypes.number
+    }),
+    name: PropTypes.string
+  })
+}
 
 export default OrderDetails;

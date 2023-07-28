@@ -1,30 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import style from './App.module.css';
 import AppHeader from '../AppHeader/AppHeader';
 import BurgersIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
-import { getIngredients } from '../../utils/burger-api';
-import { IngredientsContext } from '../../contexts/IngredientsContext';
-
+import { getIngredients } from '../../services/actions/ingredients.js';
 function App() {
-  const [state, setState] = useState({
-    data: [],
-    isLoading: false,
-    hasError: false
-  });
 
-  const getData = () => {
-    setState({ ...state, isLoading: true });
-    getIngredients()
-      .then(res => setState({ ...state, data: res.data, isLoading: false }))
-      .catch(e => setState({ ...state, isLoading: false, hasError: true }));
-  }
+  const dispatch = useDispatch();
+  useEffect(()=> {
+    dispatch(getIngredients())
+  }, [])
 
-  useEffect(() => {
-    getData();
-  }, []);
-
-  const { data, isLoading, hasError } = state;
+  const hasError = useSelector(store => store.ingredients.ingredientsFailed)
+  const isLoading = useSelector(store => store.ingredients.ingredientsRequest);
+  
   return (
     <div className="App">
       <AppHeader />
@@ -40,11 +30,11 @@ function App() {
               Ошибка при получении данных с сервера!
             </p>
           }
-          {!isLoading && !hasError && data.length &&
-            <IngredientsContext.Provider value={data}>
-              <BurgersIngredients />
-              <BurgerConstructor />
-            </IngredientsContext.Provider>
+          {!isLoading && !hasError &&
+          <>
+            <BurgersIngredients />
+            <BurgerConstructor />
+          </>
           }
         </div>
       </main>

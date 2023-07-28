@@ -37,8 +37,13 @@
 }
 
 .burger_constructor {
-  display: flex;
-  align-items: flex-end;
+  display: grid;
+  grid-template-areas: 
+  "title title"
+  "ingredients constructor";
+
+  align-items: flex-start;
+  
   max-width: 1280px;
   width: 100%;
   justify-content: space-between;

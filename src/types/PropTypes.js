@@ -12,3 +12,8 @@ export const ingredientPropTypes = PropTypes.shape({
     "image_mobile":PropTypes.string.isRequired,
     "image_large":PropTypes.string.isRequired,
 });
+
+export const CartElementTypes = PropTypes.shape({
+    key: PropTypes.string.isRequired,
+    item: ingredientPropTypes.isRequired
+})
