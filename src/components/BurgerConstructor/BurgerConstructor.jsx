@@ -13,11 +13,15 @@ import { useDispatch } from 'react-redux';
 import { ADD_TO_CART } from "../../services/actions/cart.js";
 import CartFillingItem from "../CartFillingItem/CartFillingItem.jsx";
 import { submitOrder } from "../../services/actions/order.js";
+import { useNavigate } from "react-router-dom";
 
 const BurgerConstructor = () => {
   const [showModal, setShowModal] = useState(false);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const user = useSelector(store => store.user.user)
 
   const currentBun = useSelector(store => store.cart.bun);
   const filling = useSelector(store => store.cart.filling);
@@ -47,6 +51,16 @@ const BurgerConstructor = () => {
       type: ADD_TO_CART,
       item: item,
     })
+  }
+
+  const onCheckoutClickHandler = e => {
+    if (user) {
+      if (currentBun.price!==null && !orderRequest)
+        dispatch(submitOrder(orderItemsIds));
+      setShowModal(true)
+    } else {
+      navigate('/login')
+    }
   }
 
   const { orderRequest, orderFailed, message, res} = useSelector(store => store.order);
@@ -89,11 +103,7 @@ const BurgerConstructor = () => {
           htmlType="button"
           type="primary"
           size="large"
-          onClick={() => {
-            if (currentBun.price!==null && !orderRequest)
-              dispatch(submitOrder(orderItemsIds))
-            setShowModal(true)
-          }}
+          onClick={onCheckoutClickHandler}
         >
           {orderRequest && !orderFailed ? "Загрузка" : "Оформить заказ"}
         </Button>

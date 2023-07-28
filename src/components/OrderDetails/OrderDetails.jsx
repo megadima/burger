@@ -4,8 +4,6 @@ import ok_image from './accept.jpg';
 
 const OrderDetails = ({ data }) => {
   const success = data?.success;
-  console.log(data)
-
   return (
     <div className={styles.content}>
       {!success &&

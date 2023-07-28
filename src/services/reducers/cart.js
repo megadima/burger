@@ -1,5 +1,5 @@
 import uuid from "react-uuid";
-import { ADD_TO_CART, REMOVE_FROM_CART, CHANGE_ITEM_POSITION } from "../actions/cart";
+import { ADD_TO_CART, REMOVE_FROM_CART, CHANGE_ITEM_POSITION, CLEAR_CART } from "../actions/cart";
 import emptyImage from '../../components/BurgerConstructor/Empty.jpg';
 import { BUN } from "../../components/helpers/IngredientCategories.js";
 
@@ -44,6 +44,11 @@ export const cartReducer = (state = initialState, action) => {
       return {
         ...state,
         filling: changeItemPosition(action.oldIndex, action.newIndex),
+      }
+    }
+    case CLEAR_CART: {
+      return {
+        ...initialState
       }
     }
     default: {

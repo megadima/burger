@@ -32,7 +32,7 @@ const Modal = ({ children, header, onClose }) => {
       <div className={styles.wrapper}>
         <div className={styles.modal}>
           <button className={styles.close_button} onClick={
-            (e) => {
+            e => {
               e.stopPropagation();
               onClose();
             }

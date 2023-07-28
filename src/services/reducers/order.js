@@ -15,7 +15,7 @@ export const orderReducer = (state = initialState, action) => {
   switch (action.type) {
     case SEND_ORDER_REQUEST: {
       return {
-        ...state,
+        ...initialState,
         orderFailed: false,
         orderRequest: true,
       };

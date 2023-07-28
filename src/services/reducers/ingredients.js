@@ -9,10 +9,7 @@ const initialState = {
   ingredients: [],
   ingredientsRequest: false,
   ingredientsFailed: false,
-
   currentIngredient: null,
-
-  currentTab: "buns",
 };
 
 export const ingredientsReducer = (state = initialState, action) => {
@@ -43,12 +40,6 @@ export const ingredientsReducer = (state = initialState, action) => {
         currentIngredient: action.item,
       };
     }
-    // case SWITCH_TAB: {
-    //   return {
-    //     ...state,
-    //     currentTab: action.tab,
-    //   };
-    // }
     default: {
       return state;
     }
