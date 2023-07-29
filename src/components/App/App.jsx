@@ -8,19 +8,21 @@ import ProfilePage from '../../pages/ProfilePage.jsx';
 import ProtectedRoute from '../ProtectedRoute.jsx';
 import Profile from '../Profile/Profile.jsx';
 import IngredientDetails from '../IngredientDetails/IngredientDetails.jsx';
+import AppHeader from '../AppHeader/AppHeader.jsx';
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App"> 
+      <AppHeader />
         <Routes>
           <Route path='/' element={<HomePage />}>
             <Route path='ingredients/:ingredientId' element={<IngredientDetails />} />
           </Route>
-          <Route path='/login' element={<LoginPage />} />
-          <Route path='/register' element={<RegisterPage />} />
-          <Route path='/forgot-password' element={<ForgotPasswordPage />} />
-          <Route path='/reset-password' element={<ResetPasswordPage />} />
+          <Route path='/login' element={<ProtectedRoute element={ <LoginPage />} onlyNotAuth /> } />
+          <Route path='/register' element={<ProtectedRoute element={ <RegisterPage />} onlyNotAuth /> } />
+          <Route path='/forgot-password' element={<ProtectedRoute element={ <ForgotPasswordPage />} onlyNotAuth /> } />
+          <Route path='/reset-password' element={<ProtectedRoute element={ <ResetPasswordPage />} onlyNotAuth /> } />
           <Route path='/profile' element={ <ProtectedRoute element={ <ProfilePage /> } /> }>
             <Route index element={ <Profile /> } />
             <Route path='orders' element={ null }>

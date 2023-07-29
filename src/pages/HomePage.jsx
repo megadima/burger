@@ -27,32 +27,31 @@ const HomePage = () => {
 
   return (
     <>
-    <AppHeader />
-    { !isIngredientPagePurposefullyOpened && 
-      <main className={`${styles.burger_constructor_wrap} mb-10`} >
-        <div className={styles.burger_constructor} id="homepage">
-          {isLoading &&
-            <p className={"text text_type_main-large"} style={{ margin: "0 auto" }}>
-              Загрузка
-            </p>
-          }
-          {hasError &&
-            <p className={"text text_type_main-large"} style={{ margin: "0 auto" }}>
-              Ошибка при получении данных с сервера!
-            </p>
-          }
-          {!isLoading && !hasError &&
-          <>  
-            <BurgersIngredients />
-            <BurgerConstructor />
-          </>
-          }
+      {!isIngredientPagePurposefullyOpened && 
+        <main className={`${styles.burger_constructor_wrap} mb-10`} >
+          <div className={styles.burger_constructor} id="homepage">
+            {isLoading &&
+              <p className={"text text_type_main-large"} style={{ margin: "0 auto" }}>
+                Загрузка
+              </p>
+            }
+            {hasError &&
+              <p className={"text text_type_main-large"} style={{ margin: "0 auto" }}>
+                Ошибка при получении данных с сервера!
+              </p>
+            }
+            {!isLoading && !hasError &&
+            <>  
+              <BurgersIngredients />
+              <BurgerConstructor />
+            </>
+            }
+          </div>
+        </main>}
+      
+        <div style={{position:'absolute', zIndex: '2'}}>
+          <Outlet />
         </div>
-      </main>
-    }
-      <div style={{position:'absolute', zIndex: '2'}}>
-        <Outlet />
-      </div>
     </>
   )
 }

@@ -1,6 +1,7 @@
 import { sendRefreshToken as sendRefreshTokenRequest } from "../../utils/burger-api.js";
 import { setCookie } from "../../utils/cookie.js";
 import { logout } from "./logout.js";
+import { getUserData } from "./user.js";
 
 export const SEND_REFRESH_TOKEN_REQUEST = 'SEND_REFRESH_TOKEN_REQUEST';
 export const REFRESH_TOKEN_SUCCESS = 'REFRESH_TOKEN_SUCCESS';
@@ -20,6 +21,7 @@ export const refreshToken = () => dispatch => {
           type: REFRESH_TOKEN_SUCCESS,
           message: 'refresh_token_success'
         })
+        dispatch(getUserData());
       } else {
         dispatch({
           type: REFRESH_TOKEN_FAILED,
@@ -35,7 +37,7 @@ export const refreshToken = () => dispatch => {
       logout();
     }
   })
-  .catch( e => {
+  .catch(e => {
     dispatch({
       type: REFRESH_TOKEN_FAILED,
       message: 'error '+ e.message

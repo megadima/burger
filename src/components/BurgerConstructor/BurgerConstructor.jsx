@@ -14,6 +14,7 @@ import { ADD_TO_CART } from "../../services/actions/cart.js";
 import CartFillingItem from "../CartFillingItem/CartFillingItem.jsx";
 import { submitOrder } from "../../services/actions/order.js";
 import { useNavigate } from "react-router-dom";
+import { getUserData } from "../../services/actions/user.js";
 
 const BurgerConstructor = () => {
   const [showModal, setShowModal] = useState(false);
@@ -52,8 +53,11 @@ const BurgerConstructor = () => {
       item: item,
     })
   }
+  
+  const { orderRequest, orderFailed, message, res} = useSelector(store => store.order);
 
   const onCheckoutClickHandler = e => {
+    dispatch(getUserData());
     if (user) {
       if (currentBun.price!==null && !orderRequest)
         dispatch(submitOrder(orderItemsIds));
@@ -63,7 +67,6 @@ const BurgerConstructor = () => {
     }
   }
 
-  const { orderRequest, orderFailed, message, res} = useSelector(store => store.order);
   return (
     <div ref={dropTargetRef} className={styles.container}>
       <div className={styles.bun}>

@@ -1,4 +1,5 @@
 import { getUser as getUserRequest } from "../../utils/burger-api.js";
+import { getCookie } from "../../utils/cookie.js";
 import { refreshToken } from "./refreshToken.js";
 
 export const GET_USER_REQUEST = 'SEND_USER_REQUEST';
@@ -20,29 +21,32 @@ export const getUserData = () => dispatch => {
           user: res.user
         })
       } else {
-        if (res.message==="jwt malformed") {
-          console.log(1)
+        if (res.message==="jwt malformed" || res.message === "jwt expired") {
           dispatch({
             type: GET_USER_FAILED,
             message: res.message
           })
-          dispatch(refreshToken());
+          if (localStorage.getItem('refreshToken')) {
+            dispatch(refreshToken());
+          }
         }
       }
     } else {
-      console.log(2)
       dispatch({
         type: GET_USER_FAILED,
         message: 'no response from server'
       })
     }
   })
-  .catch(e => {
-    console.log(3);
+  .catch( e => {
     dispatch({
       type: GET_USER_FAILED,
       message: 'error: '+ e.message
     })
-    if (localStorage.getItem('refreshToken')) dispatch(refreshToken());
-  })
+    if (e.message==="jwt malformed" || e.message === "jwt expired")
+      if (localStorage.getItem('refreshToken')) {
+        dispatch(refreshToken());
+      }
+    }
+  )
 }

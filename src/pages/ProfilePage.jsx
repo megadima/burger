@@ -1,6 +1,5 @@
 import { useDispatch } from 'react-redux';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
-import AppHeader from '../components/AppHeader/AppHeader.jsx';
 import { logout } from '../services/actions/logout.js';
 import styles from './ProfilePage.module.css';
 
@@ -10,13 +9,11 @@ const ProfilePage = () => {
   const activeNavClassName = styles.tab + " text text_type_main-medium " + styles.activeTabColor;
   const {pathname} = useLocation();
 
-  const onLogoutClickHandler = (e) => {
+  const onLogoutClickHandler = e => {
     dispatch(logout());
   }
 
   return (
-    <>
-      <AppHeader />
       <div className={styles.wrapper}>
         <div className={styles.menu}>
           <NavLink to='/profile' className={() => pathname==='/profile' ? activeNavClassName : defaultNavClassName}>
@@ -35,7 +32,6 @@ const ProfilePage = () => {
         </div>
         <Outlet />
       </div>
-    </>
   )
 }
 

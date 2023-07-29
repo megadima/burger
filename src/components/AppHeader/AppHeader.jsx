@@ -5,27 +5,10 @@ import {
   ListIcon,
   ProfileIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import PropTypes from "prop-types";
-import { useEffect } from 'react';
 
 const AppHeader = () => {
-
-  const linkToNodeId = {
-    '/': 'constructorTab',
-    'profile': 'profileTab',
-    'login': 'profileTab'
-  }
-  const tabAddress = window.location.href.split('/')[3] || '/';
-
-  const activeTabId = linkToNodeId[tabAddress];
-
-  useEffect(() => {
-    if (activeTabId) {
-      const activeTabNode = document.getElementById(activeTabId);
-      activeTabNode.className = activeTabNode.className.replace('text_color_inactive', '')
-    }
-  }, [])
 
   return (
     <header className={`${styles.header} pt-4 pb-4`}>
@@ -33,35 +16,59 @@ const AppHeader = () => {
         <nav className={styles.nav}>
           <ul className={`${styles.list} ${styles.nav_side_parts}`}>
             <li>
-              <Link to='/' className={`${styles.link} pt-4 pb-4`}>
-                <div className={`${styles.icon} ml-5`}>
-                  <BurgerIcon type={ 
-                    activeTabId==='constructorTab' ? 'primary' : 'secondary' 
-                  } />
-                </div>
-                <span className={`text text_type_main-default text_color_inactive mr-5`} id='constructorTab' >Конструктор</span>
-              </Link>
+              <NavLink to='/' className={`${styles.link} pt-4 pb-4`}>
+                {({ isActive }) => (
+                  <>
+                    <div className={`${styles.icon} ml-5`}>
+                      <BurgerIcon type={isActive ? 'primary' : 'secondary'} />
+                    </div>
+                    <span
+                      className={
+                        isActive ? `text text_type_main-default mr-5` : `text text_type_main-default text_color_inactive mr-5`
+                      }
+                    >
+                      Конструктор
+                    </span>
+                  </>
+                )}
+              </NavLink>
             </li>
             <li>
-              <Link to="/" className={`${styles.link} pt-4 pb-4`}>
-                <div className={`${styles.icon} ml-5`}>
-                  <ListIcon type={
-                    activeTabId==='orderFeedTab' ? 'primary' : 'secondary'
-                  } />
-                </div>
-                <span className={`text text_type_main-default text_color_inactive mr-5`} id='orderFeedTab'>Лента заказов</span>
-              </Link>
+              <NavLink to='order_feed' className={`${styles.link} pt-4 pb-4`}>
+                {({ isActive }) => (
+                  <>
+                    <div className={`${styles.icon} ml-5`}>
+                      <ListIcon type={isActive ? 'primary' : 'secondary'} />
+                    </div>
+                    <span
+                      className={
+                        isActive ? `text text_type_main-default mr-5` : `text text_type_main-default text_color_inactive mr-5`
+                      }
+                    >
+                      Лента заказов
+                    </span>
+                  </>
+                )}
+              </NavLink>
             </li>
           </ul>
           <Logo />
-          <Link to='/profile' className={`${styles.link} ${styles.nav_side_parts} ${styles.lk} pt-4 pb-4`}>
-            <div className={`${styles.icon} ml-5`}>
-              <ProfileIcon type={
-                activeTabId==='profileTab' ? 'primary' : 'secondary'
-              } />
-            </div>
-            <span className={`text text_type_main-default text_color_inactive mr-5`} id='profileTab' >Личный кабинет</span>
-          </Link>
+          <NavLink to='/profile' className={`${styles.link} ${styles.nav_side_parts} ${styles.lk} pt-4 pb-4`}>
+            {({ isActive }) => (
+              <>
+                <div className={`${styles.icon} ml-5`}>
+                  <ProfileIcon type={isActive ? 'primary' : 'secondary'} />
+                </div>
+                <span
+                  className={
+                    isActive ? `text text_type_main-default mr-5` : `text text_type_main-default text_color_inactive mr-5`
+                  }
+                >
+                  Личный кабинет
+                </span>
+              </>
+            )}
+          </NavLink>
         </nav>
       </div>
     </header>

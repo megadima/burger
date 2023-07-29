@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { ingredientPropTypes } from '../../types/PropTypes';
 import {
   CurrencyIcon,
@@ -23,10 +23,6 @@ const IngredientsItem = ({ ingredient }) => {
 
   return (
     <div ref={dragRef} className={styles.card} onClick={() => navigate(`/ingredients/${ingredient._id}?isModal=true`)}>
-      {/* {showModal &&
-        <Modal onClose={() => setShowModal(false)} header="Детали ингредиента">
-          <IngredientDetails ingredient={ingredient} />
-        </Modal>} */}
       <img className={`${styles.image} ml-4 mr-4`} src={ingredient.image} alt="фото" />
       {count>0 && <Counter className={styles.count} count={count} size="default" extraClass="m-1" />}
       <div className={`${styles.price} mt-1 mb-1`}>

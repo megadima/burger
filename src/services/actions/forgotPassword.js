@@ -2,6 +2,7 @@ import { sendEmail as sendEmailRequest } from "../../utils/burger-api.js";
 export const SEND_EMAIL_REQUEST = 'SEND_EMAIL_REQUEST'
 export const SEND_EMAIL_SUCCESS = 'SEND_EMAIL_SUCCESS'
 export const SEND_EMAIL_FAILED = 'SEND_EMAIL_FAILED'
+export const CLEAR_FORGOTPASSWORD_STORE = 'CLEAR_FORGOTPASSWORD_STORE';
 
 export const sendEmail = (email) => dispatch => {
   dispatch({
@@ -14,7 +15,6 @@ export const sendEmail = (email) => dispatch => {
         dispatch({
           type: SEND_EMAIL_SUCCESS,
           message: res.message,
-          email: email
         });
       } else {
         dispatch({

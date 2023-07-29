@@ -2,9 +2,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { getUserData } from "../services/actions/user.js";
 import { useEffect } from 'react';
-import AppHeader from "./AppHeader/AppHeader.jsx";
 
-const ProtectedRoute = ({ element }) => {
+const ProtectedRoute = ({ element, onlyNotAuth }) => {
   const dispatch = useDispatch();
   const {user, isGetUserRequest} = useSelector(store => store.user)
   const {isRefreshTokenRequest} = useSelector(store => store.refreshToken)
@@ -13,13 +12,17 @@ const ProtectedRoute = ({ element }) => {
     dispatch(getUserData());
   }, [])
 
-  if (isGetUserRequest || isRefreshTokenRequest) 
-    return <AppHeader />;
-
-  return (
-    user ? element : <Navigate to='/login'/>
-    // element
-  )
+  if (!onlyNotAuth) {
+    if (isGetUserRequest || isRefreshTokenRequest) 
+      return null;
+    return (
+      user ? element : <Navigate to='/login'/>
+    )
+  } else {
+    return (
+      !user ? element : <Navigate to='/'/>
+    )
+  }
 }
 
 export default ProtectedRoute;

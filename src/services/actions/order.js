@@ -10,24 +10,31 @@ export const submitOrder = orderItemsIds => dispatch => {
       type: SEND_ORDER_REQUEST,
     });
     getOrderDetails(orderItemsIds)
-      .then((res) => {
-        if (res && res.success) {
-          dispatch({
-            type: SEND_ORDER_SUCCESS,
-            number: res.order.number,
-            res: res
-          });
-        } else {
-          dispatch({
-            type: SEND_ORDER_FAILED,
-            message: "Server returned success=0"
-          });
-        }
-      })
-      .catch((err) => {
+    .then(res => {
+    if (res) {
+      if (res.success) {
+        dispatch({
+          type: SEND_ORDER_SUCCESS,
+          number: res.order.number,
+          res: res
+        })
+      } else {
         dispatch({
           type: SEND_ORDER_FAILED,
-          message: err.message
-        });
-      });
-};
+          message: res.message
+        })
+      }
+    } else {
+      dispatch({
+        type: SEND_ORDER_FAILED,
+        message: 'no response from server'
+      })
+    }
+  })
+  .catch(e => {
+    dispatch({
+      type: SEND_ORDER_FAILED,
+      message: 'error: '+ e.message
+    })
+  })
+}

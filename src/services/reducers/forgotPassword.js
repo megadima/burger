@@ -1,7 +1,6 @@
-import { SEND_EMAIL_FAILED, SEND_EMAIL_REQUEST, SEND_EMAIL_SUCCESS } from "../actions/forgotPassword.js"
+import { CLEAR_FORGOTPASSWORD_STORE, SEND_EMAIL_FAILED, SEND_EMAIL_REQUEST, SEND_EMAIL_SUCCESS } from "../actions/forgotPassword.js"
 
 const initialState = {
-  email: '',
   sendEmailRequest: false,
   sendEmailFailed: false,
   message: ''
@@ -21,7 +20,6 @@ export const forgotPasswordReducer = (state = initialState, action) => {
         sendEmailRequest: false,
         sendEmailFailed: false,
         message: action.message,
-        email: action.email
       };
     }
     case SEND_EMAIL_FAILED: {
@@ -29,6 +27,11 @@ export const forgotPasswordReducer = (state = initialState, action) => {
         ...initialState,
         sendEmailFailed: true,
         message: action.message
+      }
+    }
+    case CLEAR_FORGOTPASSWORD_STORE:{
+      return {
+        ...initialState
       }
     }
     default:

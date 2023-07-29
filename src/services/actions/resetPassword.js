@@ -3,11 +3,12 @@ export const SEND_RESET_PASSWORD_REQUEST = 'SEND_RESET_PASSWORD_REQUEST'
 export const RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS'
 export const RESET_PASSWORD_FAILED = 'SEND_RESET_PASSWORD_FAILED'
 
-export const sendResetPassword = (password, token) => dispatch => {
+export const sendResetPassword = (password, verificationCode) => dispatch => {
   dispatch({
     type: SEND_RESET_PASSWORD_REQUEST
   });
-  sendResetPasswordRequest(password, token)
+  sendResetPasswordRequest(password, verificationCode)
+  //здесь используется токен из письма.
   .then(res => {
     if (res && res.success) {
       if (res.message === "Password successfully reset"){
