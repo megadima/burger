@@ -9,6 +9,9 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import "./index.css";
 import App from "./components/App/App";
 import reportWebVitals from "./reportWebVitals";
+import { PersistGate } from "redux-persist/integration/react";
+import storage from 'redux-persist/lib/storage';
+import { persistStore, persistReducer } from "redux-persist";
 
 declare global {
   interface Window {
@@ -18,7 +21,15 @@ declare global {
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
+const persistConfig = {
+  key: 'root',
+  storage,
+}
+
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+
+const store = createStore(persistedReducer, composeEnhancers(applyMiddleware(thunk)));
+const persistor = persistStore(store)
 
 const root = createRoot(
   document.getElementById('root') as HTMLElement
@@ -27,9 +38,11 @@ const root = createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <DndProvider backend={HTML5Backend}>
-        <App />
-      </DndProvider>
+      <PersistGate loading={null} persistor={persistor}>
+        <DndProvider backend={HTML5Backend}>
+          <App />
+        </DndProvider>
+      </PersistGate>
     </Provider>
   </React.StrictMode>
 );
