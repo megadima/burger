@@ -1,20 +1,26 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { getUserData } from "../services/actions/user.js";
-import { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 
-const ProtectedRoute = ({ element, onlyNotAuth }) => {
+const ProtectedRoute: FC<{element: React.ReactElement; onlyNotAuth?: boolean}> = ({ element, onlyNotAuth }) => {
   const dispatch = useDispatch();
+
+  //@ts-ignore
   const {user, isGetUserRequest} = useSelector(store => store.user)
+  //@ts-ignore
   const {isRefreshTokenRequest} = useSelector(store => store.refreshToken)
 
   useEffect(() => {
+    //@ts-ignore
     dispatch(getUserData());
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  if (isGetUserRequest || isRefreshTokenRequest) 
+    return null;
+    
   if (!onlyNotAuth) {
-    if (isGetUserRequest || isRefreshTokenRequest) 
-      return null;
     return (
       user ? element : <Navigate to='/login'/>
     )

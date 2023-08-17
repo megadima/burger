@@ -13,11 +13,14 @@ const RegisterPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  //@ts-ignore
   const user = useSelector (store => store.user.user)
+  //@ts-ignore
   const message = useSelector(store => store.registration.message )
 
-  const onRegisterClickHandler = e => {
+  const onRegisterClickHandler: React.FormEventHandler<HTMLFormElement> = e => {
     e.preventDefault();
+    //@ts-ignore
     dispatch(register(email, password, name))
   }
 
@@ -27,9 +30,9 @@ const RegisterPage = () => {
       <div className={styles.wrapper}>
         <form className={styles.auth_fields_wrapper} onSubmit={onRegisterClickHandler}>
           <p className={styles.fields_text + " text text_type_main-medium"}>Регистрация</p>
-          <Input placeholder='Имя' type="text" onChange={e => setName(e.target.value)}/>
-          <EmailInput onChange={e => setEmail(e.target.value)}/>
-          <PasswordInput onChange={e => setPassword(e.target.value)}/>
+          <Input placeholder='Имя' type="text" onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setName(e.target.value)} value={name} />
+          <EmailInput onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setEmail(e.target.value)} value={email} />
+          <PasswordInput onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setPassword(e.target.value)} value={password} />
           {message !== '' && 
             <p className={styles.fields_text + " text text_type_main-default text_color_inactive"}>
               {message}

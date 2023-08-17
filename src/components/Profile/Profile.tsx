@@ -1,14 +1,15 @@
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import { Input } from '@ya.praktikum/react-developer-burger-ui-components'
 import { useSelector } from 'react-redux'
 import styles from './Profile.module.css'
 
-const Profile = () => {
+const Profile: FC = () => {
+  //@ts-ignore
   const {user} = useSelector(store => store.user)
 
-  const [name, setName] = useState(user.name);
-  const [email, setEmail] = useState(user.email);
-  const [password, setPassword] = useState('********');
+  const [name, setName] = useState<string>(user.name);
+  const [email, setEmail] = useState<string>(user.email);
+  const [password, setPassword] = useState<string>('********');
 
   return (
     <div className={styles.inputs} >

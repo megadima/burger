@@ -8,20 +8,22 @@ import { useState } from 'react';
 const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  //@ts-ignore
   const message = useSelector(store => store.login.message)
   const [inputEmail, setInputEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const onEmailChange = e => {
+  const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setInputEmail(e.target.value)
   }
 
-  const onPasswordChange = e => {
+  const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setPassword(e.target.value)
   }
 
-  const onLoginClickHandler = e => {
+  const onLoginClickHandler: React.FormEventHandler<HTMLFormElement> = e => {
     e.preventDefault()
+    //@ts-ignore
     dispatch(login(inputEmail, password));
   }
 
@@ -29,8 +31,8 @@ const LoginPage = () => {
     <div className={styles.wrapper}>
       <form className={styles.auth_fields_wrapper} onSubmit={onLoginClickHandler}>
         <p className={styles.fields_text + " text text_type_main-medium"}>Вход</p>
-        <EmailInput onChange={onEmailChange} />
-        <PasswordInput onChange={onPasswordChange} />
+        <EmailInput onChange={onEmailChange} value={inputEmail} />
+        <PasswordInput onChange={onPasswordChange} value={password} />
         {message !== '' &&
           <p className={styles.fields_text + " text text_type_main-default text_color_inactive"}>
             {message}

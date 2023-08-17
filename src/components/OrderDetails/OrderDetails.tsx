@@ -1,8 +1,9 @@
 import styles from './OrderDetails.module.css';
-import PropTypes from "prop-types";
 import ok_image from './accept.jpg';
+import { FC } from 'react';
+import { TOrderDetailsResponse } from '../../types/responseTypes';
 
-const OrderDetails = ({ data }) => {
+const OrderDetails: FC<TOrderDetailsResponse> = ({ data }) => {
   const success = data?.success;
   return (
     <div className={styles.content}>
@@ -23,16 +24,6 @@ const OrderDetails = ({ data }) => {
       }
     </div>
   )
-}
-
-OrderDetails.propTypes = {
-  data: PropTypes.shape({
-    success: PropTypes.bool,
-    order: PropTypes.shape({
-      number: PropTypes.number
-    }),
-    name: PropTypes.string
-  })
 }
 
 export default OrderDetails;

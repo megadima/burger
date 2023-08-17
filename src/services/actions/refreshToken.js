@@ -1,5 +1,5 @@
-import { sendRefreshToken as sendRefreshTokenRequest } from "../../utils/burger-api.js";
-import { setCookie } from "../../utils/cookie.js";
+import { sendRefreshToken as sendRefreshTokenRequest } from "../../utils/burger-api.ts";
+import { setCookie } from "../../utils/cookie.ts";
 import { logout } from "./logout.js";
 import { getUserData } from "./user.js";
 

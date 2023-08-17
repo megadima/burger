@@ -2,9 +2,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getIngredients } from "../services/actions/ingredients.js";
 import { useEffect } from 'react';
 import styles from './HomePage.module.css';
-import BurgersIngredients from "../components/BurgerIngredients/BurgerIngredients.jsx";
-import BurgerConstructor from "../components/BurgerConstructor/BurgerConstructor.jsx";
-import AppHeader from "../components/AppHeader/AppHeader.jsx";
+import BurgersIngredients from "../components/BurgerIngredients/BurgerIngredients";
+import BurgerConstructor from "../components/BurgerConstructor/BurgerConstructor";
 import { Outlet, useLocation, useSearchParams } from "react-router-dom";
 
 const HomePage = () => {
@@ -18,11 +17,15 @@ const HomePage = () => {
   //и мы можем отловить, нужно ли рендерить окно конструктора
   const isIngredientPagePurposefullyOpened = (useLocation().pathname.split('/')[1] === 'ingredients') && (isModal===null) ;
   
-  useEffect(()=> {
+  useEffect(() => {
+    //@ts-ignore
     dispatch(getIngredients())
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  //@ts-ignore
   const hasError = useSelector(store => store.ingredients.ingredientsFailed)
+  //@ts-ignore
   const isLoading = useSelector(store => store.ingredients.ingredientsRequest);
 
   return (

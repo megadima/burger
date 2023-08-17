@@ -6,9 +6,9 @@ import {
   ProfileIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
 import { NavLink } from 'react-router-dom';
-import PropTypes from "prop-types";
+import { FC } from 'react';
 
-const AppHeader = () => {
+const AppHeader: FC = () => {
 
   return (
     <header className={`${styles.header} pt-4 pb-4`}>
@@ -74,9 +74,5 @@ const AppHeader = () => {
     </header>
   );
 }
-
-AppHeader.propTypes = PropTypes.shape({
-  activeTabId: PropTypes.string.isRequired
-})
 
 export default AppHeader;

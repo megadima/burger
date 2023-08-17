@@ -10,19 +10,19 @@ const ForgotPasswordPage = () => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
 
-  const onRestoreClickHandler =  e => {
+  const onRestoreClickHandler: React.FormEventHandler<HTMLFormElement> = e => {
     e.preventDefault();
+    //@ts-ignore
     dispatch(sendEmail(email))
     navigate('/reset-password', {state: {email: email}});
   }
-
-  const onEmailChange = e => setEmail(e.target.value);
+  const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => setEmail(e.target.value);
 
   return (
     <div className={styles.wrapper}>
       <form className={styles.auth_fields_wrapper} onSubmit={onRestoreClickHandler}>
         <p className={styles.fields_text + " text text_type_main-medium"}>Восстановление пароля</p>
-        <EmailInput placeholder='Укажите E-mail' onChange={onEmailChange} />
+        <EmailInput placeholder='Укажите E-mail' onChange={onEmailChange} value={email} />
         <Button htmlType="submit" type="primary" size="medium">
           Восстановить
         </Button>

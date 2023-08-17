@@ -1,16 +1,18 @@
-import HomePage from '../../pages/HomePage.jsx';
-import LoginPage from '../../pages/AuthPages/LoginPage.jsx';
-import RegisterPage from '../../pages/AuthPages/RegisterPage.jsx';
+import { FC } from 'react';
+import HomePage from '../../pages/HomePage';
+import LoginPage from '../../pages/AuthPages/LoginPage';
+import RegisterPage from '../../pages/AuthPages/RegisterPage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import ForgotPasswordPage from '../../pages/AuthPages/ForgotPasswordPage.jsx';
-import ResetPasswordPage from '../../pages/AuthPages/ResetPasswordPage.jsx';
-import ProfilePage from '../../pages/ProfilePage.jsx';
-import ProtectedRoute from '../ProtectedRoute.jsx';
-import Profile from '../Profile/Profile.jsx';
-import IngredientDetails from '../IngredientDetails/IngredientDetails.jsx';
-import AppHeader from '../AppHeader/AppHeader.jsx';
+import ForgotPasswordPage from '../../pages/AuthPages/ForgotPasswordPage';
+import ResetPasswordPage from '../../pages/AuthPages/ResetPasswordPage';
+import ProfilePage from '../../pages/ProfilePage';
+import ProtectedRoute from '../ProtectedRoute';
+import Profile from '../Profile/Profile';
+import IngredientDetails from '../IngredientDetails/IngredientDetails';
+import AppHeader from '../AppHeader/AppHeader';
 
-function App() {
+const App: FC = () => {
+
   return (
     <BrowserRouter>
       <div className="App"> 
@@ -30,7 +32,6 @@ function App() {
             </Route>
           </Route>
         </Routes>
-
       </div>
     </BrowserRouter>
   );

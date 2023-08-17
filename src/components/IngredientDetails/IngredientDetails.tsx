@@ -1,18 +1,20 @@
+import { FC } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { ingredientPropTypes } from '../../types/PropTypes.js';
-import Modal from '../Modal/Modal.jsx';
+import Modal from '../Modal/Modal';
 import styles from './IngredientDetails.module.css';
 
 
-const IngredientDetails = () => {
+const IngredientDetails: FC = () => {
   const {ingredientId} = useParams();
   const navigate = useNavigate();
 
   const [searchParams] = useSearchParams();
   const isModal = searchParams.get('isModal');
   
+  //@ts-ignore
   const ingredient = useSelector(store => store.ingredients.ingredients.find(item => item._id===ingredientId))
+
   const content = 
     <div className={styles.content}>
     <img src={ingredient.image_large} alt="Фото продукта" />
@@ -52,9 +54,4 @@ const IngredientDetails = () => {
     </div>
   )
 }
-
-IngredientDetails.propTypes = {
-  ingredient: ingredientPropTypes.isRequired
-};
-
 export default IngredientDetails;

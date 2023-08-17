@@ -9,7 +9,8 @@ const ProfilePage = () => {
   const activeNavClassName = styles.tab + " text text_type_main-medium " + styles.activeTabColor;
   const {pathname} = useLocation();
 
-  const onLogoutClickHandler = e => {
+  const onLogoutClickHandler: React.MouseEventHandler<HTMLAnchorElement> = e => {
+    //@ts-ignore
     dispatch(logout());
   }
 
