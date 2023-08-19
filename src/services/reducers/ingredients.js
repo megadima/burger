@@ -7,7 +7,7 @@ import {
 
 const initialState = {
   ingredients: [],
-  ingredientsRequest: false,
+  ingredientsRequest: true,
   ingredientsFailed: false,
   currentIngredient: null,
 };

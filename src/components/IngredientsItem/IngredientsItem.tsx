@@ -24,7 +24,7 @@ const IngredientsItem: FC<{ingredient: TIngredient}> = ({ ingredient }) => {
   })
 
   return (
-    <div ref={dragRef} className={styles.card} onClick={() => navigate(`/ingredients/${ingredient._id}?isModal=true`)}>
+    <div ref={dragRef} className={styles.card} onClick={() => navigate(`/ingredients/${ingredient._id}`, {state: {isIndredientOpenedInModal: true}})}>
       <img className={`${styles.image} ml-4 mr-4`} src={ingredient.image} alt="фото" />
       {count>0 && <Counter count={count} size="default" extraClass="m-1" />}
       <div className={`${styles.price} mt-1 mb-1`}>

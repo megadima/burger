@@ -15,7 +15,7 @@ type TModalProps = {
 const Modal: FC<TModalProps> = ({ children, header, onClose }) => {
 
   const closeOnEsc = (e: KeyboardEvent): void => {
-    if (e.keyCode === 27) {
+    if (e.key === 'Escape') {
       onClose();
     }
   }

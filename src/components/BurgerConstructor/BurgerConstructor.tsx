@@ -63,7 +63,7 @@ const BurgerConstructor: FC = () => {
       onDropHandler(item);
     }
   })
-
+  
 
   const onDropHandler = (item: TIngredient): void => {
     dispatch({
@@ -80,7 +80,6 @@ const BurgerConstructor: FC = () => {
     dispatch(getUserData());
     if (user) {
       if (currentBun.price!==null && !orderRequest)
-        console.log('asdasd')
         //@ts-ignore
         dispatch(submitOrder(orderItemsIds));
       setShowModal(true)
@@ -106,7 +105,7 @@ const BurgerConstructor: FC = () => {
             <p className="text text text_type_main-default">Перетяните сюда начинку (или булочку)</p>
           </li>
         : filling.map((elem: TCartElement, index: number) => (
-          <CartFillingItem elem={elem} index={index} key={index} />
+          <CartFillingItem elem={elem} index={index} key={elem.key} />
           ))
         }
       </ul>

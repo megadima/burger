@@ -10,7 +10,7 @@ export const login = (email, password) => dispatch => {
   dispatch({
     type: SEND_LOGIN_REQUEST
   });
-  sendLoginRequest(email, password)
+  return sendLoginRequest(email, password)
   .then(res => {
     if (res) {
       if (res.success) {
@@ -24,17 +24,20 @@ export const login = (email, password) => dispatch => {
           type: LOGIN_SUCCESS,
           message: 'login success'
         });
+        return true
       } else {
         dispatch({
           type: LOGIN_FAILED,
           message: res.message
         })
+        return false
       }
     } else {
       dispatch({
         type: LOGIN_FAILED,
         message: 'no response from server'
       })
+      return false
     }
   })
   .catch(e => {
@@ -42,5 +45,6 @@ export const login = (email, password) => dispatch => {
       type: LOGIN_FAILED,
       message: 'error: '+ e.message
     })
+    return false
   })
 }

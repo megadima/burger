@@ -1,10 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { getUserData } from "../services/actions/user.js";
 import React, { FC, useEffect } from 'react';
 
 const ProtectedRoute: FC<{element: React.ReactElement; onlyNotAuth?: boolean}> = ({ element, onlyNotAuth }) => {
   const dispatch = useDispatch();
+  const { pathname } = useLocation();
 
   //@ts-ignore
   const {user, isGetUserRequest} = useSelector(store => store.user)
@@ -17,16 +18,16 @@ const ProtectedRoute: FC<{element: React.ReactElement; onlyNotAuth?: boolean}> =
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  if (isGetUserRequest || isRefreshTokenRequest) 
+  if (isGetUserRequest || isRefreshTokenRequest)
     return null;
     
   if (!onlyNotAuth) {
     return (
-      user ? element : <Navigate to='/login'/>
+      user ? element : <Navigate to='/login' state={{fromPage: pathname}}/>
     )
   } else {
     return (
-      !user ? element : <Navigate to='/'/>
+      !user ? element : <Navigate to='/' />
     )
   }
 }

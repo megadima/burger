@@ -2,9 +2,12 @@ import styles from './OrderDetails.module.css';
 import ok_image from './accept.jpg';
 import { FC } from 'react';
 import { TOrderDetailsResponse } from '../../types/responseTypes';
+// import { useDispatch } from 'react-redux';
+// import { CLEAR_CART } from '../../services/actions/cart';
 
 const OrderDetails: FC<TOrderDetailsResponse> = ({ data }) => {
   const success = data?.success;
+
   return (
     <div className={styles.content}>
       {!success &&

@@ -52,7 +52,6 @@ const BurgersIngredients: FC = () => {
         
         if (typeof itemPosition === 'number') {
           const distance: number = countScrollDistance(targetPosition, itemPosition)
-          console.log(closest, distance)
           if ((!closest.distance || distance < closest.distance) && (typeof tabName === "string")) {
             closest = {key: tabName, distance}
         }

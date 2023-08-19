@@ -1,6 +1,6 @@
 import { Button, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { login } from '../../services/actions/login.js';
 import styles from './AuthStyles.module.css';
 import { useState } from 'react';
@@ -8,6 +8,10 @@ import { useState } from 'react';
 const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
+
+  const fromPage = location.state?.fromPage;
+
   //@ts-ignore
   const message = useSelector(store => store.login.message)
   const [inputEmail, setInputEmail] = useState('');
@@ -24,7 +28,10 @@ const LoginPage = () => {
   const onLoginClickHandler: React.FormEventHandler<HTMLFormElement> = e => {
     e.preventDefault()
     //@ts-ignore
-    dispatch(login(inputEmail, password));
+    const loginState = dispatch(login(inputEmail, password));
+    loginState.then((state: boolean) => {
+      if (state) navigate(fromPage)
+    })
   }
 
   return (
