@@ -6,6 +6,7 @@ import styles from './AuthStyles.module.css';
 import { useState } from 'react';
 
 const LoginPage = () => {
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -30,7 +31,9 @@ const LoginPage = () => {
     //@ts-ignore
     const loginState = dispatch(login(inputEmail, password));
     loginState.then((state: boolean) => {
-      if (state) navigate(fromPage)
+      if (state) {
+        navigate(fromPage || -1) // -1 для возвращения на страницу, которая не обернута в protectedRoute
+      }
     })
   }
 

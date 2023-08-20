@@ -23,11 +23,11 @@ const ProtectedRoute: FC<{element: React.ReactElement; onlyNotAuth?: boolean}> =
     
   if (!onlyNotAuth) {
     return (
-      user ? element : <Navigate to='/login' state={{fromPage: pathname}}/>
+      user ? element : <Navigate to='/login' replace state={{fromPage: pathname}}/>
     )
   } else {
     return (
-      !user ? element : <Navigate to='/' />
+      !user ? element : <Navigate to='/' replace/>
     )
   }
 }
