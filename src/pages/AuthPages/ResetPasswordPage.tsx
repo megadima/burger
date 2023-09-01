@@ -12,19 +12,20 @@ const ResetPasswordPage = () => {
   const [password, setPassword] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
 
-  const email = location.state.email
+  const email = location.state?.email
   //если на прошлой странице был введен емаил
 
-  const onPasswordChange = e => {
+  const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setPassword(e.target.value);
   }
 
-  const onVerificationCodeChange = e => {
+  const onVerificationCodeChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setVerificationCode(e.target.value)
   }
   
-  const onSaveClickHandler = e => {
+  const onSaveClickHandler: React.FormEventHandler<HTMLFormElement> = e => {
     e.preventDefault();
+    //@ts-ignore
     dispatch(sendResetPassword(password, verificationCode))
     navigate('/')
   }
@@ -36,8 +37,8 @@ const ResetPasswordPage = () => {
       <div className={styles.wrapper}>
         <form className={styles.auth_fields_wrapper} onSubmit={onSaveClickHandler}>
           <p className={styles.fields_text + " text text_type_main-medium"}>Восстановление пароля</p>
-          <PasswordInput placeholder='Введите новый пароль' onChange={onPasswordChange} />
-          <Input type='text' placeholder='Введите код из письма' onChange={onVerificationCodeChange} />
+          <PasswordInput placeholder='Введите новый пароль' onChange={onPasswordChange} value={password} />
+          <Input type='text' placeholder='Введите код из письма' onChange={onVerificationCodeChange} value={verificationCode} />
           <Button htmlType="submit" type="primary" size="medium">
             Сохранить
           </Button>

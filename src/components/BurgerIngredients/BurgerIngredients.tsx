@@ -1,47 +1,62 @@
-import React, { useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from '../BurgerIngredients/BurgerIngredients.module.css';
-import IngredientsItem from '../IngredientsItem/IngredientsItem.jsx';
+import IngredientsItem from '../IngredientsItem/IngredientsItem';
 import { useSelector } from 'react-redux';
 import { BUN, MAIN, SAUCE } from '../helpers/IngredientCategories.js';
+import { TIngredient} from '../../types/types';
 
-const BurgersIngredients = () => {
+const BurgersIngredients: FC = () => {
 
+  //@ts-ignore
   const ingredients = useSelector(store => store.ingredients.ingredients)
 
-  const [currentTab, setCurrentTab] = React.useState('buns');
-  const buns = useMemo(() => ingredients.filter((el) => el.type === BUN), [ingredients])
-  const sauces = useMemo(() => ingredients.filter((el) => el.type === SAUCE), [ingredients])
-  const mains = useMemo(() => ingredients.filter((el) => el.type === MAIN), [ingredients])
+  const [currentTab, setCurrentTab] = React.useState<string>('buns');
+  const buns = useMemo(() => ingredients.filter((el: TIngredient): boolean => el.type === BUN), [ingredients])
+  const sauces = useMemo(() => ingredients.filter((el: TIngredient): boolean => el.type === SAUCE), [ingredients])
+  const mains = useMemo(() => ingredients.filter((el: TIngredient): boolean => el.type === MAIN), [ingredients])
 
-  const scrollElement = {
+  const scrollElement: {[name: string]: HTMLElement | null} = {
     'buns': document.querySelector('#buns'),
     'sauces': document.querySelector('#sauces'),
     'mains': document.querySelector('#mains')
   }
 
-  const tabSelect = (tab) => {
-    document.getElementById('scrollList').scrollTop = scrollElement[tab].offsetTop-285;
+  const tabSelect = (tab: string): void => {
+    const first: HTMLElement | null = document.getElementById('scrollList');
+    const second: HTMLElement | null = scrollElement[tab];
+    if ((first instanceof HTMLElement) && (second instanceof HTMLElement))
+      first.scrollTop = second.offsetTop-285;
   };
 
-  const countScrollDistance = (source, target) => {
+  const countScrollDistance = (source: number, target: number): number => {
     return Math.abs(target - source)
   }
 
-  const scrollHandler = ({ target }) => {
-    const targetPosition = target.getBoundingClientRect().y
+  const scrollHandler = (e: React.UIEvent<HTMLElement>): void => {
+    const target = e.target as HTMLElement;
+    type TClosest = {
+      key: string;
+      distance: number | null;
+    }
+    const targetPosition: number = target.getBoundingClientRect().y
 
-    let closest
+    let closest: TClosest = {
+      key: 'buns',
+      distance: null
+    };
 
     Object.entries(scrollElement)
-      .map(([key, value]) => [key, value.getBoundingClientRect().y])
-      .forEach(([key, itemPosition]) => {
-      const distance = countScrollDistance(targetPosition, itemPosition)
-      if (!closest || distance < closest.distance) {
-        closest = { key, distance }
+      .map(([tabName, value]) => value instanceof Element ? [tabName, value.getBoundingClientRect().y] : [tabName, null])
+      .forEach(([tabName, itemPosition]) => {
+        
+        if (typeof itemPosition === 'number') {
+          const distance: number = countScrollDistance(targetPosition, itemPosition)
+          if ((!closest.distance || distance < closest.distance) && (typeof tabName === "string")) {
+            closest = {key: tabName, distance}
+        }
       }
     })
-
     setCurrentTab(closest.key)
   }
 
@@ -67,7 +82,7 @@ const BurgersIngredients = () => {
           Булки
         </h2>
         <ul className={`${styles.list} pt-6 pb-10`}>
-          {buns.map((item, index) => (
+          {buns.map((item: TIngredient, index: number) => (
             <li key={index}>
               <IngredientsItem ingredient={item} />
             </li>
@@ -78,7 +93,7 @@ const BurgersIngredients = () => {
           Соусы
         </h2>
         <ul className={`${styles.list} pt-6 pb-10`}>
-          {sauces.map((item, index) => (
+          {sauces.map((item: TIngredient, index: number) => (
             <li key={index}>
               <IngredientsItem ingredient={item} />
             </li>
@@ -89,7 +104,7 @@ const BurgersIngredients = () => {
           Начинки
         </h2>
         <ul className={`${styles.list} pt-6 pb-10`}>
-          {mains.map((item, index) => (
+          {mains.map((item: TIngredient, index: number) => (
             <li key={index}>
               <IngredientsItem ingredient={item} />
             </li>

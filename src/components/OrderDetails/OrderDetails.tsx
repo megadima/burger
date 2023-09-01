@@ -1,9 +1,13 @@
 import styles from './OrderDetails.module.css';
-import PropTypes from "prop-types";
 import ok_image from './accept.jpg';
+import { FC } from 'react';
+import { TOrderDetailsResponse } from '../../types/responseTypes';
+// import { useDispatch } from 'react-redux';
+// import { CLEAR_CART } from '../../services/actions/cart';
 
-const OrderDetails = ({ data }) => {
+const OrderDetails: FC<TOrderDetailsResponse> = ({ data }) => {
   const success = data?.success;
+
   return (
     <div className={styles.content}>
       {!success &&
@@ -23,16 +27,6 @@ const OrderDetails = ({ data }) => {
       }
     </div>
   )
-}
-
-OrderDetails.propTypes = {
-  data: PropTypes.shape({
-    success: PropTypes.bool,
-    order: PropTypes.shape({
-      number: PropTypes.number
-    }),
-    name: PropTypes.string
-  })
 }
 
 export default OrderDetails;

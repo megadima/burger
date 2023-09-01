@@ -1,6 +1,7 @@
+import { FC } from 'react';
 import styles from './Modal.module.css';
 
-const ModalOverlay = ({ onClose }) => {
+const ModalOverlay: FC<{onClose: () => void}> = ({ onClose }) => {
   return (
     <div className={styles.overlay} onClick={(e) => {
       e.stopPropagation();

@@ -1,5 +1,4 @@
-
-import { getOrderDetails } from "../../utils/burger-api.js";
+import { getOrderDetails } from "../../utils/burger-api";
 
 export const SEND_ORDER_REQUEST = "SEND_ORDER_REQUEST";
 export const SEND_ORDER_SUCCESS = "SEND_ORDER_SUCCESS";

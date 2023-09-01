@@ -12,6 +12,7 @@ import reportWebVitals from "./reportWebVitals";
 import { PersistGate } from "redux-persist/integration/react";
 import storage from 'redux-persist/lib/storage';
 import { persistStore, persistReducer } from "redux-persist";
+import { BrowserRouter } from "react-router-dom";
 
 declare global {
   interface Window {
@@ -40,7 +41,9 @@ root.render(
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <DndProvider backend={HTML5Backend}>
-          <App />
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
         </DndProvider>
       </PersistGate>
     </Provider>

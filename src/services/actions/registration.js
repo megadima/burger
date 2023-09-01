@@ -1,5 +1,5 @@
-import { sendRegistration as sendRegistrationRequest } from "../../utils/burger-api.js";
-import { setCookie } from "../../utils/cookie.js";
+import { sendRegistration as sendRegistrationRequest } from "../../utils/burger-api.ts";
+import { setCookie } from "../../utils/cookie.ts";
 import { SET_USER } from "./user.js";
 
 export const SEND_REGISTRATION_REQUEST = 'SEND_REGISTRATION_REQUEST'

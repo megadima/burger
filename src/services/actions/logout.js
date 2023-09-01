@@ -1,6 +1,6 @@
-import { deleteCookie } from "../../utils/cookie.js";
+import { deleteCookie } from "../../utils/cookie.ts";
 import { CLEAR_USER } from "./user.js"
-import { sendLogout as sendLogoutRequest } from "../../utils/burger-api.js";
+import { sendLogout as sendLogoutRequest } from "../../utils/burger-api.ts";
 import { CLEAR_CART } from "./cart.js";
 
 export const SEND_LOGOUT_REQUEST = 'SEND_LOGOUT_REQUEST';

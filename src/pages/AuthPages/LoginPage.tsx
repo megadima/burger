@@ -1,36 +1,48 @@
 import { Button, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { login } from '../../services/actions/login.js';
 import styles from './AuthStyles.module.css';
 import { useState } from 'react';
 
 const LoginPage = () => {
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
+
+  const fromPage = location.state?.fromPage;
+
+  //@ts-ignore
   const message = useSelector(store => store.login.message)
   const [inputEmail, setInputEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const onEmailChange = e => {
+  const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setInputEmail(e.target.value)
   }
 
-  const onPasswordChange = e => {
+  const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setPassword(e.target.value)
   }
 
-  const onLoginClickHandler = e => {
+  const onLoginClickHandler: React.FormEventHandler<HTMLFormElement> = e => {
     e.preventDefault()
-    dispatch(login(inputEmail, password));
+    //@ts-ignore
+    const loginState = dispatch(login(inputEmail, password));
+    loginState.then((state: boolean) => {
+      if (state) {
+        navigate(fromPage || -1) // -1 для возвращения на страницу, которая не обернута в protectedRoute
+      }
+    })
   }
 
   return (
     <div className={styles.wrapper}>
       <form className={styles.auth_fields_wrapper} onSubmit={onLoginClickHandler}>
         <p className={styles.fields_text + " text text_type_main-medium"}>Вход</p>
-        <EmailInput onChange={onEmailChange} />
-        <PasswordInput onChange={onPasswordChange} />
+        <EmailInput onChange={onEmailChange} value={inputEmail} />
+        <PasswordInput onChange={onPasswordChange} value={password} />
         {message !== '' &&
           <p className={styles.fields_text + " text text_type_main-default text_color_inactive"}>
             {message}

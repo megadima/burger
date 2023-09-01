@@ -1,5 +1,4 @@
-import { getUser as getUserRequest } from "../../utils/burger-api.js";
-import { getCookie } from "../../utils/cookie.js";
+import { getUser as getUserRequest } from "../../utils/burger-api.ts";
 import { refreshToken } from "./refreshToken.js";
 
 export const GET_USER_REQUEST = 'SEND_USER_REQUEST';

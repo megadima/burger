@@ -1,4 +1,4 @@
-import { sendResetPassword as sendResetPasswordRequest } from "../../utils/burger-api.js";
+import { sendResetPassword as sendResetPasswordRequest } from "../../utils/burger-api.ts";
 export const SEND_RESET_PASSWORD_REQUEST = 'SEND_RESET_PASSWORD_REQUEST'
 export const RESET_PASSWORD_SUCCESS = 'RESET_PASSWORD_SUCCESS'
 export const RESET_PASSWORD_FAILED = 'SEND_RESET_PASSWORD_FAILED'
