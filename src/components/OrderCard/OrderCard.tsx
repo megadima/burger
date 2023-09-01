@@ -51,7 +51,7 @@ const OrderCard: FC<{ data: TWSOrder, withStatus: boolean }> = ({ data, withStat
       </div>
       <div className={styles.content}>
         <div className={styles.ingredients_container}>
-          {orderIngredientsImages.map((v, i) =>
+          {[...orderIngredientsImages].reverse().map((v, i) =>
             <RoundIngredientIcon image={v} key={i}
               text={i === 0 && ingredients.length > imagesAmount ? `${ingredients.length - orderIngredientsImages.length}` : ''}
             />
