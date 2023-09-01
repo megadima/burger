@@ -4,18 +4,18 @@ import {
   Button
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from '../BurgerConstructor/BurgerConstructor.module.css';
-import OrderDetails from "../OrderDetails/OrderDetails";
+import CreatedOrderDetails from "../CreatedOrderDetails/CreatedOrderDetails";
 import Modal from '../Modal/Modal';
 import { FC, useMemo, useState } from "react";
-import { useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
-import { useDispatch } from 'react-redux';
-import { ADD_TO_CART } from "../../services/actions/cart.js";
+import { addToCartAction, clearCartAction } from "../../services/redux/actions/cart";
 import CartFillingItem from "../CartFillingItem/CartFillingItem";
-import { submitOrder } from "../../services/actions/order.js";
+import { submitOrder } from "../../services/redux/actions/order";
 import { useNavigate } from "react-router-dom";
-import { getUserData } from "../../services/actions/user.js";
-import { TCartElement, TIngredient } from "../../types/types";
+import { getUserData } from "../../services/redux/actions/user";
+import { TCartElement, TIngredient } from "../../services/types/data";
+import { useDispatch, useSelector } from "../../services/hooks";
+import { TInitialBun } from "../../services/redux/reducers/cart";
 
 const BurgerConstructor: FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -23,12 +23,8 @@ const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  //@ts-ignore
   const user = useSelector(store => store.user.user)
-
-  //@ts-ignore
   const currentBun = useSelector(store => store.cart.bun);
-  //@ts-ignore
   const filling = useSelector(store => store.cart.filling);
 
   //у булочки нет ключа, поэтому проверяем на то, является ли это ингредиентом.
@@ -40,8 +36,8 @@ const BurgerConstructor: FC = () => {
     return (item as TCartElement).item?._id !== undefined && (item as TCartElement).key !== undefined
   }
 
-  const orderItemsIds: Array<string> = useMemo(() => [...filling, currentBun, currentBun]
-  .map((elem: TCartElement | TIngredient) => {
+  const orderItemsIds: Array<string> = useMemo(() => [currentBun, ...filling, currentBun]
+  .map((elem: TCartElement | TIngredient | TInitialBun) => {
     if (isBunIngredient(elem)) return elem._id  // у булочек нет ключа 
     else if (isNotBunIngredient(elem)) return elem.item._id 
     else return ''
@@ -66,21 +62,15 @@ const BurgerConstructor: FC = () => {
   
 
   const onDropHandler = (item: TIngredient): void => {
-    dispatch({
-      type: ADD_TO_CART,
-      item: item,
-    })
+    dispatch(addToCartAction(item))
   }
-  
-  //@ts-ignore
-  const { orderRequest, orderFailed, message, res} = useSelector(store => store.order);
+
+  const { isOrderRequest, isOrderFailed, res} = useSelector(store => store.order);
 
   const onCheckoutClickHandler = (e: React.SyntheticEvent<Element, Event>): void => {
-    //@ts-ignore
     dispatch(getUserData());
     if (user) {
-      if (currentBun.price!==null && !orderRequest)
-        //@ts-ignore
+      if (currentBun.price!==null && !isOrderRequest)
         dispatch(submitOrder(orderItemsIds));
       setShowModal(true)
     } else {
@@ -95,7 +85,7 @@ const BurgerConstructor: FC = () => {
           type="top"
           isLocked
           text={`${currentBun.name} (верх)`}
-          price={currentBun.price}
+          price={currentBun.price as number}
           thumbnail={currentBun.image_mobile}
         />
       </div>
@@ -114,7 +104,7 @@ const BurgerConstructor: FC = () => {
           type="bottom"
           isLocked
           text={`${currentBun.name} (низ)`}
-          price={currentBun.price}
+          price={currentBun.price as number}
           thumbnail={currentBun.image_mobile}
         />
       </div>
@@ -129,19 +119,16 @@ const BurgerConstructor: FC = () => {
           size="large"
           onClick={onCheckoutClickHandler}
         >
-          {orderRequest && !orderFailed ? "Загрузка" : "Оформить заказ"}
+          {isOrderRequest && !isOrderFailed ? "Загрузка" : "Оформить заказ"}
         </Button>
 
         {showModal &&
-          <Modal onClose={() => setShowModal(false)}>
+          <Modal onClose={() => {
+            setShowModal(false)
+            if (res?.success) dispatch(clearCartAction())
+          }}>
             {currentBun.price!==null
-            ?
-              (!orderRequest && !orderFailed
-              ? <OrderDetails data={res} /> 
-              : <p className="text text text_type_main-default" style={{textAlign: 'center'}}>
-                {message}
-                </p>
-              )
+            ? <CreatedOrderDetails /> 
             :
               <p className="text text text_type_main-default" style={{textAlign: 'center'}}>
                 Добавьте булочку              

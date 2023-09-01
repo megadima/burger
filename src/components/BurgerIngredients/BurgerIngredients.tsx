@@ -2,13 +2,12 @@ import React, { FC, useMemo } from 'react';
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from '../BurgerIngredients/BurgerIngredients.module.css';
 import IngredientsItem from '../IngredientsItem/IngredientsItem';
-import { useSelector } from 'react-redux';
-import { BUN, MAIN, SAUCE } from '../helpers/IngredientCategories.js';
-import { TIngredient} from '../../types/types';
+import { BUN, MAIN, SAUCE } from '../helpers/IngredientCategories';
+import { TIngredient} from '../../services/types/data';
+import { useSelector } from '../../services/hooks';
 
 const BurgersIngredients: FC = () => {
 
-  //@ts-ignore
   const ingredients = useSelector(store => store.ingredients.ingredients)
 
   const [currentTab, setCurrentTab] = React.useState<string>('buns');

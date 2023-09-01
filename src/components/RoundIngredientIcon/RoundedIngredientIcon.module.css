@@ -1,0 +1,40 @@
+.ingredient_image_border {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 100px;
+    background: linear-gradient(to left, #5544F2, #7622C0);
+}
+
+.ingredient_image_border:not(:last-child) {
+    margin-left: -20px;
+}
+
+.ingredient_image_background {
+    width: 56px;
+    height: 56px;
+    border-radius: 100px;
+    background-color: #131316;
+}
+
+.ingredient_image {
+    width: 200%;
+    height: 100%;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.text {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

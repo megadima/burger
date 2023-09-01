@@ -4,17 +4,15 @@ import {
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './IngredientsItem.module.css';
-import { useSelector } from 'react-redux';
 import { useDrag } from 'react-dnd';
 import { useNavigate } from 'react-router-dom';
-import { TIngredient } from '../../types/types';
+import { TIngredient } from '../../services/types/data';
+import { useSelector } from '../../services/hooks';
 
 const IngredientsItem: FC<{ingredient: TIngredient}> = ({ ingredient }) => {
   const navigate = useNavigate();
 
-  //@ts-ignore
   const bunInCart = useSelector(store => store.cart.bun)
-  //@ts-ignore
   const fillingInCart = useSelector(store => store.cart.filling).map(elem => elem.item)
   const count = useMemo(()=>[bunInCart, bunInCart, ...fillingInCart].filter(elem => elem._id === ingredient._id).length, [bunInCart, fillingInCart, ingredient._id])
 

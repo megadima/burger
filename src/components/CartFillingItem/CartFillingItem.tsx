@@ -1,10 +1,10 @@
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch } from 'react-redux';
-import { CHANGE_ITEM_POSITION, REMOVE_FROM_CART } from "../../services/actions/cart.js";
 import { useDrag, useDrop } from 'react-dnd';
 import styles from './CartFillingItem.module.css';
 import { FC, useRef } from "react";
-import { TCartElement } from "../../types/types.js";
+import { TCartElement } from "../../services/types/data";
+import { CHANGE_ITEM_POSITION, REMOVE_FROM_CART } from "../../services/redux/constatns";
 
 type draggableItemIdentifiers = {
   key: string;

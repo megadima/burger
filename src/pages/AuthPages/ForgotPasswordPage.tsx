@@ -1,8 +1,8 @@
 import { Button, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { sendEmail } from '../../services/actions/forgotPassword.js';
+import { sendEmail } from '../../services/redux/actions/forgotPassword';
+import { useDispatch } from '../../services/hooks';
 import styles from './AuthStyles.module.css';
 
 const ForgotPasswordPage = () => {
@@ -12,7 +12,6 @@ const ForgotPasswordPage = () => {
 
   const onRestoreClickHandler: React.FormEventHandler<HTMLFormElement> = e => {
     e.preventDefault();
-    //@ts-ignore
     dispatch(sendEmail(email))
     navigate('/reset-password', {state: {email: email}});
   }

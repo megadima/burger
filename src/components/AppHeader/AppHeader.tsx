@@ -5,7 +5,7 @@ import {
   ListIcon,
   ProfileIcon
 } from '@ya.praktikum/react-developer-burger-ui-components';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { FC } from 'react';
 
 const AppHeader: FC = () => {
@@ -34,7 +34,7 @@ const AppHeader: FC = () => {
               </NavLink>
             </li>
             <li>
-              <NavLink to='order_feed' className={`${styles.link} pt-4 pb-4`}>
+              <NavLink to='feed' className={`${styles.link} pt-4 pb-4`}>
                 {({ isActive }) => (
                   <>
                     <div className={`${styles.icon} ml-5`}>
@@ -52,7 +52,7 @@ const AppHeader: FC = () => {
               </NavLink>
             </li>
           </ul>
-          <Logo />
+          <Link to='/'><Logo /></Link> 
           <NavLink to='/profile' className={`${styles.link} ${styles.nav_side_parts} ${styles.lk} pt-4 pb-4`}>
             {({ isActive }) => (
               <>

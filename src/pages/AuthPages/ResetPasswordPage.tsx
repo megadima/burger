@@ -1,8 +1,8 @@
 import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
-import { sendResetPassword } from '../../services/actions/resetPassword.js';
+import { sendResetPassword } from '../../services/redux/actions/resetPassword';
+import { useDispatch } from '../../services/hooks';
 import styles from './AuthStyles.module.css';
 
 const ResetPasswordPage = () => {
@@ -25,7 +25,6 @@ const ResetPasswordPage = () => {
   
   const onSaveClickHandler: React.FormEventHandler<HTMLFormElement> = e => {
     e.preventDefault();
-    //@ts-ignore
     dispatch(sendResetPassword(password, verificationCode))
     navigate('/')
   }

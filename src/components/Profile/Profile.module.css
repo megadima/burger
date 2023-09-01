@@ -1,5 +1,6 @@
-.inputs{
+.inputs {
+    margin-top: 120px;
     display: flex;
     flex-direction: column;
-    gap:24px;
+    gap: 24px;
 }
