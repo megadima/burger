@@ -5,14 +5,9 @@ import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burge
 import { useLocation, useParams } from 'react-router-dom';
 import { useSelector } from '../../services/hooks';
 import { orderStatusColors, orderStatusTexts } from '../../components/helpers/OrderDetailsStatuses';
+import { getIngredientsDataForList } from './OrderDetailsPageHelper';
 
 const OrderDetailsPage = () => {
-  type TListIngredientData = {
-    image: string,
-    title: string,
-    price: number,
-    amount: number,
-  }
 
   const { orderId } = useParams();
   const ordersData = useSelector(store => store.wsOrders.message)
@@ -30,28 +25,9 @@ const OrderDetailsPage = () => {
     const order = ordersData.orders.find((order) => order._id === orderId)
     if (order) {
       console.log(new Date(order.createdAt))
-      let totalPrice = 0;
+
       //создаем объект типа TListIngredientData, в котором собираем данные для отрисовки ингредиентов
-      const listIngredientsData = order.ingredients.reduce((acc: { [id: string]: TListIngredientData | undefined }, orderIngredientId) => {
-        if (acc[orderIngredientId]?.amount) {
-          acc[orderIngredientId]!.amount += 1;
-          totalPrice += acc[orderIngredientId]!.price
-        } else {
-          const ingredient = allIngredients.find((storeIngredient) => storeIngredient._id === orderIngredientId)
-          if (ingredient) {
-            acc[orderIngredientId] = {
-              image: ingredient.image,
-              title: ingredient.name,
-              price: ingredient.price,
-              amount: 1,
-            }
-            totalPrice += ingredient.price;
-          } else {
-            acc[orderIngredientId] = undefined
-          }
-        }
-        return acc;
-      }, {})
+      const {listIngredientsData, totalPrice} = getIngredientsDataForList(order.ingredients, allIngredients);
 
       content = (
         <>
@@ -67,7 +43,7 @@ const OrderDetailsPage = () => {
           <p className={styles.composition_title + " text text_type_main-medium"}>
             Состав:
           </p>
-          <List height='312px' marginTop='24px' paddingRight='24px' gap='16px'>
+          <List className={styles.list}>
             {Object.values(listIngredientsData).map((elem, i) => {
               if (elem) {
                 return (

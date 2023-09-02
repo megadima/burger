@@ -35,3 +35,10 @@
     display: flex;
     justify-content: space-between;
 }
+
+.list {
+    height: 312px;
+    margin-top: 24px;
+    padding-right: 24px;
+    gap: 16px;
+}

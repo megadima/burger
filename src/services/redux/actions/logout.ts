@@ -56,6 +56,6 @@ export const logout: AppThunk = () => (dispatch: AppDispatch) => {
       })
   } else {
     dispatch(logoutFailedAction('no refresh token'))
-    removeUserData();;
+    removeUserData()
   }
 }

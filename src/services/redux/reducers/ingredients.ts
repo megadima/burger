@@ -40,6 +40,7 @@ export const ingredientsReducer = (state = initialState, action: TIngredientsAct
     case GET_INGREDIENTS_FAILED: {
       return {
         ...initialState,
+        ingredientsRequest: false,
         ingredientsFailed: true,
       };
     }

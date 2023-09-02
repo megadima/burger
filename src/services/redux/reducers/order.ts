@@ -34,8 +34,8 @@ export const orderReducer = (state = initialState, action: TOrderActions): TOrde
     case SEND_ORDER_SUCCESS: {
       return {
         ...state,
-        isOrderFailed: false,
         isOrderRequest: false,
+        isOrderFailed: false,
         number: action.number,
         res: action.res
       };
@@ -43,6 +43,7 @@ export const orderReducer = (state = initialState, action: TOrderActions): TOrde
     case SEND_ORDER_FAILED: {
       return {
         ...initialState,
+        isOrderRequest: false,
         isOrderFailed: true,
         message: action.message,
       };

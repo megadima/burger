@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
 import { Outlet } from 'react-router-dom';
-import { useDispatch, useSelector } from '../services/hooks'
-import { WS_CONNECTION_CLOSE, WS_CONNECTION_START } from '../services/redux/constatns/wsActionTypes';
-import List from './List/List';
-import OrderCard from './OrderCard/OrderCard';
+import { useDispatch, useSelector } from '../../services/hooks'
+import { WS_CONNECTION_CLOSE, WS_CONNECTION_START } from '../../services/redux/constatns/wsActionTypes';
+import styles from './ProfileOrdersList.module.css';
+import List from '../List/List';
+import OrderCard from '../OrderCard/OrderCard';
 
 const ProfileOrdersList = () => {
   const dispatch = useDispatch();
@@ -31,7 +32,7 @@ const ProfileOrdersList = () => {
   if (data && data.success) {
     const orders = data.orders
     content = (
-      <List height='800px' marginTop='40px'>
+      <List className={styles.list}>
         {[...orders].reverse().map((v, i) =>
           <OrderCard data={v} key={i} withStatus />
         )}

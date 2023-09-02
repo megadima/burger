@@ -48,7 +48,8 @@ export const userReducer = (state = initialState, action: TUserActions): TUserSt
     }
     case CLEAR_USER: {
       return{
-        ...initialState
+        ...initialState,
+        message: state.message
       }
     }
     default:

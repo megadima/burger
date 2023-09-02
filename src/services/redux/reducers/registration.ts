@@ -31,6 +31,7 @@ export const registrationReducer = (state = initialState, action: TRegistrationA
     case REGISTRATION_FAILED: {
       return {
         ...initialState,
+        registrationRequest: false,
         registrationFailed: true,
         message: action.message
       }

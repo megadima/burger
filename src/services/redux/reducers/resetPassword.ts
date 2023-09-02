@@ -32,6 +32,7 @@ export const resetPasswordReducer = (state = initialState, action: TResetPasswor
     case RESET_PASSWORD_FAILED: {
       return {
         ...initialState,
+        sendResetPasswordRequest: false,
         resetPasswordFailed: true,
         message: action.message
       }

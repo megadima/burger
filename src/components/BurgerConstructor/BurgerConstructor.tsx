@@ -10,22 +10,21 @@ import { FC, useMemo, useState } from "react";
 import { useDrop } from 'react-dnd';
 import { addToCartAction, clearCartAction } from "../../services/redux/actions/cart";
 import CartFillingItem from "../CartFillingItem/CartFillingItem";
-import { submitOrder } from "../../services/redux/actions/order";
-import { useNavigate } from "react-router-dom";
-import { getUserData } from "../../services/redux/actions/user";
 import { TCartElement, TIngredient } from "../../services/types/data";
 import { useDispatch, useSelector } from "../../services/hooks";
 import { TInitialBun } from "../../services/redux/reducers/cart";
+import { useNavigate } from "react-router-dom";
 
 const BurgerConstructor: FC = () => {
   const [showModal, setShowModal] = useState(false);
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const user = useSelector(store => store.user.user)
   const currentBun = useSelector(store => store.cart.bun);
   const filling = useSelector(store => store.cart.filling);
+
+  const { user } = useSelector(store => store.user) 
 
   //у булочки нет ключа, поэтому проверяем на то, является ли это ингредиентом.
   const isBunIngredient = (item: any): item is TIngredient => {
@@ -37,12 +36,12 @@ const BurgerConstructor: FC = () => {
   }
 
   const orderItemsIds: Array<string> = useMemo(() => [currentBun, ...filling, currentBun]
-  .map((elem: TCartElement | TIngredient | TInitialBun) => {
-    if (isBunIngredient(elem)) return elem._id  // у булочек нет ключа 
-    else if (isNotBunIngredient(elem)) return elem.item._id 
-    else return ''
-  })
-  .filter(elem => elem !== ''), [filling, currentBun])
+    .map((elem: TCartElement | TIngredient | TInitialBun) => {
+      if (isBunIngredient(elem)) return elem._id  // у булочек нет ключа 
+      else if (isNotBunIngredient(elem)) return elem.item._id
+      else return ''
+    })
+    .filter(elem => elem !== ''), [filling, currentBun])
 
   const totalPrice = useMemo(() => {
     let totalPrice = currentBun?.price ? currentBun.price * 2 : 0
@@ -53,29 +52,21 @@ const BurgerConstructor: FC = () => {
     return totalPrice
   }, [filling, currentBun])
 
-  const [,dropTargetRef] = useDrop({
+  const [, dropTargetRef] = useDrop({
     accept: 'ingredient',
     drop(item: TIngredient) {
       onDropHandler(item);
     }
   })
-  
 
   const onDropHandler = (item: TIngredient): void => {
     dispatch(addToCartAction(item))
   }
 
-  const { isOrderRequest, isOrderFailed, res} = useSelector(store => store.order);
-
+  const { isOrderRequest, isOrderFailed, res } = useSelector(store => store.order);
   const onCheckoutClickHandler = (e: React.SyntheticEvent<Element, Event>): void => {
-    dispatch(getUserData());
-    if (user) {
-      if (currentBun.price!==null && !isOrderRequest)
-        dispatch(submitOrder(orderItemsIds));
-      setShowModal(true)
-    } else {
-      navigate('/login')
-    }
+    if (user) setShowModal(true)
+    else navigate('/login');
   }
 
   return (
@@ -91,11 +82,11 @@ const BurgerConstructor: FC = () => {
       </div>
       <ul className={styles.list}>
         {!filling.length
-        ? <li style={{textAlign: 'center'}}>
+          ? <li style={{ textAlign: 'center' }}>
             <p className="text text text_type_main-default">Перетяните сюда начинку (или булочку)</p>
           </li>
-        : filling.map((elem: TCartElement, index: number) => (
-          <CartFillingItem elem={elem} index={index} key={elem.key} />
+          : filling.map((elem: TCartElement, index: number) => (
+            <CartFillingItem elem={elem} index={index} key={elem.key} />
           ))
         }
       </ul>
@@ -122,17 +113,18 @@ const BurgerConstructor: FC = () => {
           {isOrderRequest && !isOrderFailed ? "Загрузка" : "Оформить заказ"}
         </Button>
 
-        {showModal &&
+        {showModal && 
           <Modal onClose={() => {
             setShowModal(false)
             if (res?.success) dispatch(clearCartAction())
           }}>
-            {currentBun.price!==null
-            ? <CreatedOrderDetails /> 
-            :
-              <p className="text text text_type_main-default" style={{textAlign: 'center'}}>
-                Добавьте булочку              
-              </p>
+            {currentBun.price
+              ? <CreatedOrderDetails orderItemsIds={orderItemsIds} />
+              : (
+                <p className="text text text_type_main-default" style={{ textAlign: 'center' }}>
+                  Добавьте булочку
+                </p>
+              )
             }
           </Modal>
         }

@@ -31,6 +31,7 @@ export const loginReducer = (state = initialState, action: TLoginActions): TLogi
     case LOGIN_FAILED: {
       return {
         ...initialState,
+        loginRequest: false,
         loginFailed: true,
         message: action.message
       }

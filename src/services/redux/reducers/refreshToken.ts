@@ -31,6 +31,7 @@ export const refreshTokenReducer = (state = initialState, action: TRefreshTokenA
     case REFRESH_TOKEN_FAILED: {
       return {
         ...state,
+        refreshTokenRequest: false,
         refreshTokenFailed: true,
         message: action.message
       }

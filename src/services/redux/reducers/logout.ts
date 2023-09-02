@@ -32,6 +32,7 @@ export const LogoutReducer = (state = initialState, action: TLogoutActions): TLo
     case LOGOUT_FAILED: {
       return {
         ...initialState,
+        sendLogoutRequest: false,
         logoutFailed: true,
         message: action.message
       }

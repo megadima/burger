@@ -44,7 +44,7 @@ export const socketMiddleware = (wsActions: TWSStoreActions): Middleware => {
         }
 
         if (type === wsClose) {
-          if (socket.readyState === 1) socket.close()
+          socket.close()
         }
       }
 

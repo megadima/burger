@@ -47,7 +47,7 @@ export const getUserData: AppThunk = () => (dispatch: AppDispatch | AppThunk) =>
         if (res.success) {
           dispatch(getUserSuccessAction(res.user))
         } else {
-          if (res.message === "jwt malformed" || res.message === "jwt expired") {
+          if (res.message === "jwt malformed" || res.message === "jwt expired" || res.message === 'invalid token') {
             dispatch(getUserFailedAction(res.message))
             if (localStorage.getItem('refreshToken')) {
               dispatch(refreshToken());
@@ -60,7 +60,7 @@ export const getUserData: AppThunk = () => (dispatch: AppDispatch | AppThunk) =>
     })
     .catch(e => {
       dispatch(getUserFailedAction('error: ' + e.message))
-      if (e.message === "jwt malformed" || e.message === "jwt expired")
+      if (e.message === "jwt malformed" || e.message === "jwt expired" || e.message === 'invalid token')
         if (localStorage.getItem('refreshToken')) {
           dispatch(refreshToken());
         }

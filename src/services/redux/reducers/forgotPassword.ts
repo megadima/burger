@@ -32,6 +32,7 @@ export const forgotPasswordReducer = (state = initialState, action: TForgotPassw
     case SEND_EMAIL_FAILED: {
       return {
         ...initialState,
+        sendEmailRequest: false,
         sendEmailFailed: true,
         message: action.message
       }

@@ -41,7 +41,7 @@ const LoginPage = () => {
         <p className={styles.fields_text + " text text_type_main-medium"}>Вход</p>
         <EmailInput onChange={onEmailChange} value={inputEmail} />
         <PasswordInput onChange={onPasswordChange} value={password} />
-        {message !== '' &&
+        {message &&
           <p className={styles.fields_text + " text text_type_main-default text_color_inactive"}>
             {message}
           </p>

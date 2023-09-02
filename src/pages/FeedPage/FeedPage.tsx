@@ -62,7 +62,7 @@ const FeedPage = () => {
     content = (
       <>
         <div className={styles.content}>
-          <List height='800px'>
+          <List className={styles.list}>
             {orders.map((v, i) =>
               <OrderCard data={v} key={i} withStatus={false} />
             )}

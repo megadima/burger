@@ -15,8 +15,11 @@ const ProtectedRoute: FC<{element: React.ReactElement; onlyNotAuth?: boolean}> =
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  if (isGetUserRequest || refreshTokenRequest)
-    return null;
+  if (isGetUserRequest || refreshTokenRequest) {
+    return (
+      <p className={'text text_type_main-medium'} style={{textAlign: 'center'}}>Загрузка...</p>
+    );
+  }
     
   if (!onlyNotAuth) {
     return (

@@ -15,7 +15,7 @@ import { useDispatch } from '../../services/hooks';
 import FeedPage from '../../pages/FeedPage/FeedPage';
 import OrderDetailsPage from '../../pages/OrderDetailsPage/OrderDetailsPage';
 import Modal from '../Modal/Modal';
-import ProfileOrdersList from '../ProfileOrdersList';
+import ProfileOrdersList from '../ProfileOrdersList/ProfileOrdersList';
 import WithWebSocket from '../WithWebSocket';
 import { WS_API } from '../../utils/burger-api';
 

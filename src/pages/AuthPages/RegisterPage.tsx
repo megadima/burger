@@ -30,7 +30,7 @@ const RegisterPage = () => {
           <Input placeholder='Имя' type="text" onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setName(e.target.value)} value={name} />
           <EmailInput onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setEmail(e.target.value)} value={email} />
           <PasswordInput onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setPassword(e.target.value)} value={password} />
-          {message !== '' && 
+          {message && 
             <p className={styles.fields_text + " text text_type_main-default text_color_inactive"}>
               {message}
             </p>
