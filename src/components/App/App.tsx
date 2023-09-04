@@ -18,6 +18,7 @@ import Modal from '../Modal/Modal';
 import ProfileOrdersList from '../ProfileOrdersList/ProfileOrdersList';
 import WithWebSocket from '../WithWebSocket';
 import { WS_API } from '../../utils/burger-api';
+import { getCookie } from '../../utils/cookie';
 
 const App: FC = () => {
   const dispatch = useDispatch()
@@ -58,7 +59,15 @@ const App: FC = () => {
             }
           </Route>
         </Route>
-        {!isOrderOpenedInModal && <Route path='/profile/orders/:orderId' element={<ProtectedRoute element={<WithWebSocket url={WS_API}><OrderDetailsPage /></WithWebSocket>} />} />}
+        {!isOrderOpenedInModal && 
+          <Route path='/profile/orders/:orderId' element={
+            <ProtectedRoute element={
+              <WithWebSocket url={`${WS_API}?token=${getCookie('accessToken')}`}>
+                <OrderDetailsPage />
+              </WithWebSocket>
+            } />
+          } />
+        }
 
         <Route path='/feed' element={<FeedPage />}>
           {isOrderOpenedInModal &&

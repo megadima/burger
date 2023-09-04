@@ -3,6 +3,7 @@ import { getCookie } from '../../../utils/cookie';
 import { AppDispatch, RootState, TApplicationActions } from '../../types/redux';
 import { TResponseBody, TWSOrdersResponse } from '../../types/responseTypes';
 import { TWSStoreActions } from '../actions/webSocket';
+import { refreshToken } from '../actions/refreshToken';
 
 export const socketMiddleware = (wsActions: TWSStoreActions): Middleware => {
   return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
@@ -12,12 +13,14 @@ export const socketMiddleware = (wsActions: TWSStoreActions): Middleware => {
       const { dispatch } = store;
       const { type } = action;
       const { wsInit, wsSendMessage, onOpen, onClose, onError, onMessage, wsClose } = wsActions;
+
       if (type === wsInit) {
-        socket = new WebSocket(`${action.payload}?token=${getCookie('accessToken')}`);
+        const url = action.payload
+        socket = new WebSocket(url);
       }
       if (socket) {
         socket.onopen = event => {
-          console.log('сокет открылся')
+          // console.log('сокет открылся')
           dispatch({ type: onOpen, payload: event });
         };
 
@@ -28,12 +31,14 @@ export const socketMiddleware = (wsActions: TWSStoreActions): Middleware => {
         socket.onmessage = event => {
           const { data } = event;
           const parsedData: TResponseBody<TWSOrdersResponse> = JSON.parse(data);
-
           dispatch({ type: onMessage, payload: parsedData });
+          if (!parsedData.success && parsedData.message === "Invalid or missing token") {
+            dispatch(refreshToken());
+          }
         };
 
         socket.onclose = event => {
-          console.log('сокет закрылся')
+          // console.log('сокет закрылся')
           dispatch({ type: onClose, payload: event });
         };
 

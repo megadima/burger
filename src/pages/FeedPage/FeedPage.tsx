@@ -46,13 +46,11 @@ const FeedPage = () => {
               {v}
             </p>
           ))}
-          {numbers.length > displayedOrderStatusNumbersAmount - 1
-            ? (
+          {numbers.length > displayedOrderStatusNumbersAmount - 1 &&
+            (
               <p className={"text text_type_digits-default"}>
                 {'....'}
               </p>
-            ) : (
-              null
             )}
         </>
       )

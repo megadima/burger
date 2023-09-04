@@ -5,7 +5,6 @@ import { useSelector } from '../../services/hooks';
 
 const Profile: FC = () => {
   const { user } = useSelector(store => store.user)
-
   const [name, setName] = useState(user?.name);
   const [email, setEmail] = useState(user?.email);
   const [password, setPassword] = useState('********');

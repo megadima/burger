@@ -24,7 +24,6 @@ const OrderDetailsPage = () => {
   if (ordersData?.success) {
     const order = ordersData.orders.find((order) => order._id === orderId)
     if (order) {
-      console.log(new Date(order.createdAt))
 
       //создаем объект типа TListIngredientData, в котором собираем данные для отрисовки ингредиентов
       const {listIngredientsData, totalPrice} = getIngredientsDataForList(order.ingredients, allIngredients);
