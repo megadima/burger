@@ -1,5 +1,5 @@
 import { getIngredients as getIngredientsRequest } from "../../../utils/burger-api";
-import { GET_INGREDIENTS_FAILED, GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS, SHOW_INGREDIENT_DATA } from "../constatns";
+import { GET_INGREDIENTS_FAILED, GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS, SHOW_INGREDIENT_DATA } from "../constatns/actionTypes";
 import { AppDispatch, AppThunk } from "../../types/redux";
 import { TIngredient } from "../../types/data";
 

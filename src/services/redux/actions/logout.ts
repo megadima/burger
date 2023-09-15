@@ -1,6 +1,6 @@
 import { deleteCookie } from "../../../utils/cookie";
 import { sendLogout as sendLogoutRequest } from "../../../utils/burger-api";
-import { LOGOUT_FAILED, LOGOUT_SUCCESS, SEND_LOGOUT_REQUEST } from "../constatns";
+import { LOGOUT_FAILED, LOGOUT_SUCCESS, SEND_LOGOUT_REQUEST } from "../constatns/actionTypes";
 import { clearUserAction } from "./user";
 import { clearCartAction } from "./cart";
 import { AppDispatch, AppThunk } from "../../types/redux";

@@ -1,5 +1,5 @@
 import { sendEmailForResetPassword as sendEmailRequest } from "../../../utils/burger-api";
-import { CLEAR_FORGOTPASSWORD_STORE, SEND_EMAIL_FAILED, SEND_EMAIL_REQUEST, SEND_EMAIL_SUCCESS } from "../constatns";
+import { CLEAR_FORGOTPASSWORD_STORE, SEND_EMAIL_FAILED, SEND_EMAIL_REQUEST, SEND_EMAIL_SUCCESS } from "../constatns/actionTypes";
 import { AppDispatch, AppThunk } from "../../types/redux";
 
 export interface ISendEmailRequestAction {

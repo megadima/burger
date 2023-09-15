@@ -1,6 +1,6 @@
 import { sendLogin as sendLoginRequest } from "../../../utils/burger-api";
 import { setCookie } from "../../../utils/cookie";
-import { LOGIN_FAILED, LOGIN_SUCCESS, SEND_LOGIN_REQUEST } from "../constatns";
+import { LOGIN_FAILED, LOGIN_SUCCESS, SEND_LOGIN_REQUEST } from "../constatns/actionTypes";
 import { AppDispatch, AppThunk } from "../../types/redux";
 import { setUserAction } from "./user";
 

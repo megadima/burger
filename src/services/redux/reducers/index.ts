@@ -3,13 +3,14 @@ import { cartReducer } from "./cart";
 import { forgotPasswordReducer } from "./forgotPassword";
 import { ingredientsReducer } from "./ingredients";
 import { loginReducer } from "./login";
-import { LogoutReducer } from "./logout";
+import { logoutReducer } from "./logout";
 import { orderReducer } from "./order";
 import { refreshTokenReducer } from "./refreshToken";
 import { registrationReducer } from "./registration";
 import { resetPasswordReducer } from "./resetPassword";
 import { userReducer } from "./user";
-import { wsReducer } from "./webSocket";
+import { feedWSReducer } from "./feedWebSocket";
+import { profileWSReducer } from "./profileWebSocket";
 
 export const rootReducer = combineReducers({
   cart: cartReducer,
@@ -20,7 +21,8 @@ export const rootReducer = combineReducers({
   registration: registrationReducer,
   user: userReducer,
   login: loginReducer,
-  logout: LogoutReducer,
+  logout: logoutReducer,
   refreshToken: refreshTokenReducer,
-  wsOrders: wsReducer
+  feedWSOrders: feedWSReducer,
+  profileWSOrders: profileWSReducer
 });

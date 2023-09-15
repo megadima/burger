@@ -1,6 +1,6 @@
 import { sendRegistration as sendRegistrationRequest } from "../../../utils/burger-api";
 import { setCookie } from "../../../utils/cookie";
-import { REGISTRATION_FAILED, REGISTRATION_SUCCESS, SEND_REGISTRATION_REQUEST } from "../constatns";
+import { REGISTRATION_FAILED, REGISTRATION_SUCCESS, SEND_REGISTRATION_REQUEST } from "../constatns/actionTypes";
 import { AppDispatch, AppThunk } from "../../types/redux";
 import { setUserAction } from "./user";
 

@@ -1,4 +1,4 @@
-import { ADD_TO_CART, CHANGE_ITEM_POSITION, CLEAR_CART, REMOVE_FROM_CART } from "../constatns";
+import { ADD_TO_CART, CHANGE_ITEM_POSITION, CLEAR_CART, REMOVE_FROM_CART } from "../constatns/actionTypes";
 import { TIngredient } from "../../types/data";
 
 export interface IAddToCartAction {

@@ -1,5 +1,5 @@
 import { getUser as getUserRequest } from "../../../utils/burger-api";
-import { CLEAR_USER, GET_USER_FAILED, GET_USER_REQUEST, GET_USER_SUCCESS, SET_USER } from "../constatns/index";
+import { CLEAR_USER, GET_USER_FAILED, GET_USER_REQUEST, GET_USER_SUCCESS, SET_USER } from "../constatns/actionTypes";
 import { AppDispatch, AppThunk } from "../../types/redux";
 import { TUser } from "../../types/data";
 import { refreshToken } from "./refreshToken";
@@ -47,7 +47,7 @@ export const getUserData: AppThunk = () => (dispatch: AppDispatch | AppThunk) =>
         if (res.success) {
           dispatch(getUserSuccessAction(res.user))
         } else {
-          if (res.message === "jwt malformed" || res.message === "jwt expired" || res.message === 'invalid token') {
+          if (["jwt expired", 'invalid token', "jwt malformed"].includes(res.message)) {
             dispatch(getUserFailedAction(res.message))
             if (localStorage.getItem('refreshToken')) {
               dispatch(refreshToken());
@@ -60,7 +60,7 @@ export const getUserData: AppThunk = () => (dispatch: AppDispatch | AppThunk) =>
     })
     .catch(e => {
       dispatch(getUserFailedAction('error: ' + e.message))
-      if (e.message === "jwt malformed" || e.message === "jwt expired" || e.message === 'invalid token')
+      if (["jwt expired", 'invalid token', "jwt malformed"].includes(e.message))
         if (localStorage.getItem('refreshToken')) {
           dispatch(refreshToken());
         }

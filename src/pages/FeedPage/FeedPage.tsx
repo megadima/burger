@@ -4,24 +4,24 @@ import styles from './FeedPage.module.css'
 import { Outlet } from 'react-router-dom'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from '../../services/hooks'
-import { WS_CONNECTION_CLOSE, WS_CONNECTION_START } from '../../services/redux/constatns/wsActionTypes'
+import { FEED_WS_CONNECTION_CLOSE, FEED_WS_CONNECTION_START } from '../../services/redux/constatns/wsActionTypes'
 import { statusTypes } from '../../components/helpers/OrderDetailsStatuses'
 
 const FeedPage = () => {
   const dispatch = useDispatch();
-  const data = useSelector(store => store.wsOrders.message)
+  const data = useSelector(store => store.feedWSOrders.message)
 
   const displayedOrderStatusNumbersAmount = 30;
 
   useEffect(() => {
     dispatch({
-      type: WS_CONNECTION_START,
+      type: FEED_WS_CONNECTION_START,
       payload: 'wss://norma.nomoreparties.space/orders/all'
     })
     return () => {
       //закрываем соединение
       dispatch({
-        type: WS_CONNECTION_CLOSE
+        type: FEED_WS_CONNECTION_CLOSE
       })
     }
     // eslint-disable-next-line

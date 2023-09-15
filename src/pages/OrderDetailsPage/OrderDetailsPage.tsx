@@ -6,11 +6,12 @@ import { useLocation, useParams } from 'react-router-dom';
 import { useSelector } from '../../services/hooks';
 import { orderStatusColors, orderStatusTexts } from '../../components/helpers/OrderDetailsStatuses';
 import { getIngredientsDataForList } from './OrderDetailsPageHelper';
+import { FC } from 'react';
 
-const OrderDetailsPage = () => {
+const OrderDetailsPage: FC<{profile?: boolean}> = ({profile}) => {
 
   const { orderId } = useParams();
-  const ordersData = useSelector(store => store.wsOrders.message)
+  const ordersData = useSelector(store => profile ? store.profileWSOrders.message : store.feedWSOrders.message)
   const location = useLocation();
   const isModal = location.state?.isOrderOpenedInModal;
   const allIngredients = useSelector(store => store.ingredients.ingredients)

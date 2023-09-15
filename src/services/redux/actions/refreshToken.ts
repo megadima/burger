@@ -1,6 +1,6 @@
 import { sendRefreshToken as sendRefreshTokenRequest } from "../../../utils/burger-api";
 import { setCookie } from "../../../utils/cookie";
-import { REFRESH_TOKEN_FAILED, REFRESH_TOKEN_SUCCESS, SEND_REFRESH_TOKEN_REQUEST } from "../constatns/index";
+import { REFRESH_TOKEN_FAILED, REFRESH_TOKEN_SUCCESS, SEND_REFRESH_TOKEN_REQUEST } from "../constatns/actionTypes";
 import { AppDispatch, AppThunk } from "../../types/redux";
 import { logout } from "./logout";
 import { getUserData } from "./user";

@@ -1,5 +1,5 @@
 import { sendResetPassword as sendResetPasswordRequest } from "../../../utils/burger-api";
-import { RESET_PASSWORD_FAILED, RESET_PASSWORD_SUCCESS, SEND_RESET_PASSWORD_REQUEST } from "../constatns";
+import { RESET_PASSWORD_FAILED, RESET_PASSWORD_SUCCESS, SEND_RESET_PASSWORD_REQUEST } from "../constatns/actionTypes";
 import { AppDispatch, AppThunk } from "../../types/redux";
 
 export interface ISendResetPasswordRequestAction {

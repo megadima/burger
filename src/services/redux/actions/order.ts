@@ -1,5 +1,5 @@
 import { getOrderDetails } from "../../../utils/burger-api";
-import { SEND_ORDER_FAILED, SEND_ORDER_REQUEST, SEND_ORDER_SUCCESS } from "../constatns";
+import { SEND_ORDER_FAILED, SEND_ORDER_REQUEST, SEND_ORDER_SUCCESS } from "../constatns/actionTypes";
 import { AppDispatch, AppThunk } from "../../types/redux";
 import { TOrderDetailsResponse, TResponseBody } from "../../types/responseTypes";
 
