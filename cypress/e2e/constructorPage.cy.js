@@ -1,4 +1,5 @@
 import user from '../fixtures/user.json';
+import ingredients from '../fixtures/ingredients.json';
 import { API } from '../../src/utils/burger-api';
 
 const home = 'http://localhost:3000'
@@ -13,6 +14,7 @@ describe('check ConstructorPage', () => {
 
   describe('UI', () => {
     beforeEach(() => {
+      cy.intercept('GET', API + '/ingredients', ingredients).as('ingredientsRequest')
       cy.visit(home)
       cy.get("#scrollList").find('li').as('ingredients')
     })
