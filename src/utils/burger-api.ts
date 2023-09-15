@@ -1,7 +1,8 @@
-import { TAllIngredientsResponse, TLogoutResponse, TOrderDetailsResponse, TResetPasswordResponse, TResponseBody, TSendEmailForResetPasswordResponse, TTokensResponse, TUserAuthDataResponse, TUserCredentialsResponse } from "../types/responseTypes";
+import { TAllIngredientsResponse, TLogoutResponse, TOrderDetailsResponse, TResetPasswordResponse, TResponseBody, TSendEmailForResetPasswordResponse, TTokensResponse, TUserAuthDataResponse, TUserCredentialsResponse } from "../services/types/responseTypes";
 import { getCookie } from "./cookie";
 
 const API = "https://norma.nomoreparties.space/api";
+export const WS_API = "wss://norma.nomoreparties.space/orders";
 
 
 const checkResponse = (res: Response): Promise<any> => res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
@@ -9,19 +10,19 @@ const checkResponse = (res: Response): Promise<any> => res.ok ? res.json() : res
 export const getIngredients = (): Promise<TResponseBody<TAllIngredientsResponse>> => {
   return (
     fetch(`${API}/ingredients`)
-    .then(checkResponse)
+      .then(checkResponse)
   )
 }
 
-export const getOrderDetails = (orderItemsIds: string[]): Promise<TResponseBody<TOrderDetailsResponse>> => {
+export const getOrderDetails = (orderItemsIds: ReadonlyArray<string>): Promise<TResponseBody<TOrderDetailsResponse>> => {
   return (
     fetch(`${API}/orders`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'authorization': "Bearer "+ getCookie('accessToken')
+        'authorization': "Bearer " + getCookie('accessToken')
       },
-      body: JSON.stringify({ingredients: orderItemsIds})
+      body: JSON.stringify({ ingredients: orderItemsIds })
     })
       .then(checkResponse)
   )
@@ -34,7 +35,7 @@ export const sendEmailForResetPassword = (email: string): Promise<TResponseBody<
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({email: email})
+      body: JSON.stringify({ email: email })
     })
       .then(checkResponse)
   )
@@ -56,7 +57,7 @@ export const sendResetPassword = (password: string, token: string): Promise<TRes
   )
 }
 
-export const sendRegistration = (email: string, password: string, name: string): Promise<TResponseBody<TUserCredentialsResponse>>  => {
+export const sendRegistration = (email: string, password: string, name: string): Promise<TResponseBody<TUserAuthDataResponse>> => {
   return (
     fetch(`${API}/auth/register`, {
       method: 'POST',
@@ -110,7 +111,7 @@ export const getUser = (): Promise<TResponseBody<TUserCredentialsResponse>> => {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'authorization': "Bearer " + getCookie('accessToken') 
+        'authorization': "Bearer " + getCookie('accessToken')
       },
     })
       .then(checkResponse)

@@ -1,25 +1,25 @@
-import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
-import { getUserData } from "../services/actions/user.js";
+import { getUserData } from "../services/redux/actions/user";
 import React, { FC, useEffect } from 'react';
+import { useDispatch, useSelector } from "../services/hooks";
 
 const ProtectedRoute: FC<{element: React.ReactElement; onlyNotAuth?: boolean}> = ({ element, onlyNotAuth }) => {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
 
-  //@ts-ignore
   const {user, isGetUserRequest} = useSelector(store => store.user)
-  //@ts-ignore
-  const {isRefreshTokenRequest} = useSelector(store => store.refreshToken)
+  const {refreshTokenRequest} = useSelector(store => store.refreshToken)
 
   useEffect(() => {
-    //@ts-ignore
     dispatch(getUserData());
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  if (isGetUserRequest || isRefreshTokenRequest)
-    return null;
+  if (isGetUserRequest || refreshTokenRequest) {
+    return (
+      <p className={'text text_type_main-medium'} style={{textAlign: 'center'}}>Загрузка...</p>
+    );
+  }
     
   if (!onlyNotAuth) {
     return (

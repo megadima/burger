@@ -12,11 +12,11 @@
     gap: 20px;
 }
 
-h3{
+.ingredient_name{
     margin-top: 16px;
 }
 
-img{
+.ingredient_image{
     width:480px;
     height: 280px;
 }

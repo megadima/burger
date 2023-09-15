@@ -1,8 +1,8 @@
 import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { register } from '../../services/actions/registration.js';
+import { register } from '../../services/redux/actions/registration';
+import { useDispatch, useSelector } from '../../services/hooks';
 import styles from './AuthStyles.module.css';
 
 const RegisterPage = () => {
@@ -13,14 +13,11 @@ const RegisterPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  //@ts-ignore
-  const user = useSelector (store => store.user.user)
-  //@ts-ignore
+  const user = useSelector(store => store.user.user)
   const message = useSelector(store => store.registration.message )
 
   const onRegisterClickHandler: React.FormEventHandler<HTMLFormElement> = e => {
     e.preventDefault();
-    //@ts-ignore
     dispatch(register(email, password, name))
   }
 
@@ -33,7 +30,7 @@ const RegisterPage = () => {
           <Input placeholder='Имя' type="text" onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setName(e.target.value)} value={name} />
           <EmailInput onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setEmail(e.target.value)} value={email} />
           <PasswordInput onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setPassword(e.target.value)} value={password} />
-          {message !== '' && 
+          {message && 
             <p className={styles.fields_text + " text text_type_main-default text_color_inactive"}>
               {message}
             </p>
