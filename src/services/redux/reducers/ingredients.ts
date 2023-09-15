@@ -4,7 +4,7 @@ import {
   GET_INGREDIENTS_SUCCESS,
   GET_INGREDIENTS_FAILED,
   SHOW_INGREDIENT_DATA,
-} from "../constatns";
+} from "../constatns/actionTypes";
 import { TIngredient } from "../../types/data";
 
 export type TIngredientsState = {
@@ -16,7 +16,7 @@ export type TIngredientsState = {
 
 const initialState: TIngredientsState = {
   ingredients: [],
-  ingredientsRequest: true,
+  ingredientsRequest: false,
   ingredientsFailed: false,
   currentIngredient: null,
 };
@@ -31,16 +31,13 @@ export const ingredientsReducer = (state = initialState, action: TIngredientsAct
     }
     case GET_INGREDIENTS_SUCCESS: {
       return {
-        ...state,
-        ingredientsRequest: false,
-        ingredientsFailed: false,
+        ...initialState,
         ingredients: action.ingredients,
       };
     }
     case GET_INGREDIENTS_FAILED: {
       return {
         ...initialState,
-        ingredientsRequest: false,
         ingredientsFailed: true,
       };
     }

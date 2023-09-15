@@ -1,5 +1,5 @@
 import { TLoginActions } from "../actions/login";
-import { LOGIN_FAILED, LOGIN_SUCCESS, SEND_LOGIN_REQUEST } from "../constatns"
+import { LOGIN_FAILED, LOGIN_SUCCESS, SEND_LOGIN_REQUEST } from "../constatns/actionTypes"
 
 export type TLoginState = {
   loginRequest: boolean;
@@ -7,7 +7,7 @@ export type TLoginState = {
   message: string
 }
 
-const initialState = {
+const initialState: TLoginState = {
   loginRequest: false,
   loginFailed: false,
   message: ''
@@ -23,15 +23,12 @@ export const loginReducer = (state = initialState, action: TLoginActions): TLogi
     }
     case LOGIN_SUCCESS: {
       return {
-        ...state,
-        loginRequest: false,
-        loginFailed: false,
+        ...initialState,
       }
     }
     case LOGIN_FAILED: {
       return {
         ...initialState,
-        loginRequest: false,
         loginFailed: true,
         message: action.message
       }

@@ -1,5 +1,5 @@
-import uuid from "react-uuid";
-import { ADD_TO_CART, REMOVE_FROM_CART, CHANGE_ITEM_POSITION, CLEAR_CART } from "../constatns";
+import { v4 as uuidv4 } from 'uuid';
+import { ADD_TO_CART, REMOVE_FROM_CART, CHANGE_ITEM_POSITION, CLEAR_CART } from "../constatns/actionTypes";
 import emptyImage from '../../../components/BurgerConstructor/Empty.jpg';
 import { BUN } from "../../../components/helpers/IngredientCategories";
 import { TCartActions } from "../actions/cart";
@@ -40,7 +40,7 @@ export const cartReducer = (state = initialState, action: TCartActions): TCartSt
       if (action.item.type !== BUN) {
         return {
           ...state,
-          filling: [...state.filling, { key: uuid(), item: action.item }],
+          filling: [...state.filling, { key: uuidv4(), item: action.item }],
         };
       } else {
         return {

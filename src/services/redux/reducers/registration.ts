@@ -1,5 +1,5 @@
 import { TRegistrationActions } from "../actions/registration"
-import { REGISTRATION_FAILED, REGISTRATION_SUCCESS, SEND_REGISTRATION_REQUEST} from "../constatns"
+import { REGISTRATION_FAILED, REGISTRATION_SUCCESS, SEND_REGISTRATION_REQUEST} from "../constatns/actionTypes"
 
 export type TRegistrationState = {
   registrationRequest: boolean,
@@ -23,15 +23,12 @@ export const registrationReducer = (state = initialState, action: TRegistrationA
     }
     case REGISTRATION_SUCCESS: {
       return {
-        ...state,
-        registrationRequest: false,
-        registrationFailed: false,
+        ...initialState
       }
     }
     case REGISTRATION_FAILED: {
       return {
         ...initialState,
-        registrationRequest: false,
         registrationFailed: true,
         message: action.message
       }

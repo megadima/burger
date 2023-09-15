@@ -4,7 +4,7 @@ import { useDrag, useDrop } from 'react-dnd';
 import styles from './CartFillingItem.module.css';
 import { FC, useRef } from "react";
 import { TCartElement } from "../../services/types/data";
-import { CHANGE_ITEM_POSITION, REMOVE_FROM_CART } from "../../services/redux/constatns";
+import { CHANGE_ITEM_POSITION, REMOVE_FROM_CART } from "../../services/redux/constatns/actionTypes";
 
 type draggableItemIdentifiers = {
   key: string;
@@ -13,8 +13,6 @@ type draggableItemIdentifiers = {
 
 const CartFillingItem: FC<{elem: TCartElement, index: number}>  = ({ elem, index }) => {
   const dispatch = useDispatch();
-
-  const key = elem.key
 
   const deleteCartItemHandler = (elem: TCartElement): void => {
     dispatch({
@@ -64,7 +62,7 @@ const CartFillingItem: FC<{elem: TCartElement, index: number}>  = ({ elem, index
   const [, drag] = useDrag({
     type: 'cartItem',
     item: (): draggableItemIdentifiers => {
-      return {key , index}
+      return {key: elem.key, index}
     },
   })
   drag(drop(ref))

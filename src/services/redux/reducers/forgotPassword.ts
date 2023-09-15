@@ -1,5 +1,5 @@
 import { TForgotPasswordActions } from "../actions/forgotPassword"
-import { CLEAR_FORGOTPASSWORD_STORE, SEND_EMAIL_FAILED, SEND_EMAIL_REQUEST, SEND_EMAIL_SUCCESS } from "../constatns"
+import { CLEAR_FORGOTPASSWORD_STORE, SEND_EMAIL_FAILED, SEND_EMAIL_REQUEST, SEND_EMAIL_SUCCESS } from "../constatns/actionTypes"
 
 type TForgotPasswordState = {
   sendEmailRequest: boolean,
@@ -17,22 +17,19 @@ export const forgotPasswordReducer = (state = initialState, action: TForgotPassw
   switch(action.type) {
     case SEND_EMAIL_REQUEST: {
       return {
-        ...state,
+        ...initialState,
         sendEmailRequest: true,
       }
     }
     case SEND_EMAIL_SUCCESS: {
       return {
-        ...state,
-        sendEmailRequest: false,
-        sendEmailFailed: false,
+        ...initialState,
         message: action.message,
       };
     }
     case SEND_EMAIL_FAILED: {
       return {
         ...initialState,
-        sendEmailRequest: false,
         sendEmailFailed: true,
         message: action.message
       }

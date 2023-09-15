@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import ModalOverlay from './ModalOverlay';
 import styles from './Modal.module.css';
 
-const modalNode = document.getElementById("modals");
+const modalNode = document.getElementById("modal");
 
 type TModalProps = {
   header?: string;
@@ -38,7 +38,7 @@ const Modal: FC<TModalProps> = ({ children, header, onClose }) => {
     (
       <div className={styles.wrapper}>
         <div className={styles.modal}>
-          <button className={styles.close_button} onClick={
+          <button className={styles.close_button} id='modal_close' onClick={
             e => {
               e.stopPropagation();
               onClose();

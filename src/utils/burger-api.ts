@@ -1,7 +1,7 @@
 import { TAllIngredientsResponse, TLogoutResponse, TOrderDetailsResponse, TResetPasswordResponse, TResponseBody, TSendEmailForResetPasswordResponse, TTokensResponse, TUserAuthDataResponse, TUserCredentialsResponse } from "../services/types/responseTypes";
 import { getCookie } from "./cookie";
 
-const API = "https://norma.nomoreparties.space/api";
+export const API = "https://norma.nomoreparties.space/api";
 export const WS_API = "wss://norma.nomoreparties.space/orders";
 
 

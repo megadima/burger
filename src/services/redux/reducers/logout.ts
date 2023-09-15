@@ -1,5 +1,5 @@
 import { TLogoutActions } from "../actions/logout";
-import { LOGOUT_FAILED, LOGOUT_SUCCESS, SEND_LOGOUT_REQUEST } from "../constatns";
+import { LOGOUT_FAILED, LOGOUT_SUCCESS, SEND_LOGOUT_REQUEST } from "../constatns/actionTypes";
 
 export type TLogoutState = {
   sendLogoutRequest: boolean,
@@ -13,7 +13,7 @@ const initialState: TLogoutState = {
   message: ''
 }
 
-export const LogoutReducer = (state = initialState, action: TLogoutActions): TLogoutState => {
+export const logoutReducer = (state = initialState, action: TLogoutActions): TLogoutState => {
   switch(action.type) {
     case SEND_LOGOUT_REQUEST: {
       return {
@@ -23,16 +23,13 @@ export const LogoutReducer = (state = initialState, action: TLogoutActions): TLo
     }
     case LOGOUT_SUCCESS: {
       return {
-        ...state,
-        sendLogoutRequest: false,
-        logoutFailed: false,
+        ...initialState,
         message: action.message,
       }
     }
     case LOGOUT_FAILED: {
       return {
         ...initialState,
-        sendLogoutRequest: false,
         logoutFailed: true,
         message: action.message
       }

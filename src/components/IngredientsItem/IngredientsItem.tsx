@@ -29,7 +29,7 @@ const IngredientsItem: FC<{ingredient: TIngredient}> = ({ ingredient }) => {
         <p>{ingredient.price}</p>
         <CurrencyIcon type='primary' />
       </div>
-      <p>{ingredient.name}</p>
+      <p data-testid="ingredient-name">{ingredient.name}</p>
     </div>
   );
 }

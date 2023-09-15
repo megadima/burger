@@ -2,37 +2,29 @@ import styles from './CreatedOrderDetails.module.css';
 import ok_image from './accept.jpg';
 import { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from '../../services/hooks';
-import { getUserData } from '../../services/redux/actions/user';
 import { submitOrder } from '../../services/redux/actions/order';
 
-const CreatedOrderDetails: FC<{orderItemsIds: Array<string>}> = ({orderItemsIds}) => {
+const CreatedOrderDetails: FC<{ orderItemsIds: Array<string> }> = ({ orderItemsIds }) => {
   const { isOrderRequest, isOrderFailed, res, message } = useSelector(store => store.order)
-  const { user, isGetUserRequest, isGetUserFailed } = useSelector(store => store.user)
   const success = res?.success;
-  const { refreshTokenRequest } = useSelector(store => store.refreshToken)
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getUserData())
+    dispatch(submitOrder(orderItemsIds))
+    // eslint-disable-next-line
   }, [])
-  
-  useEffect(() => {
-    if (!isGetUserRequest && !isGetUserFailed) {
-      dispatch(submitOrder(orderItemsIds));
-    }
-  }, [user]) 
-  
 
-  if (isOrderRequest || refreshTokenRequest || isGetUserRequest) {
+
+  if (isOrderRequest) {
     return (
-      <p className={`${styles.identyfier} text text_type_main-default`} style={{textAlign: 'center'}}>Загрузка...</p>
+      <p className={'text text_type_main-medium'} style={{textAlign: 'center'}}>Загрузка...</p>
     )
   }
 
   return (
     <div className={styles.content}>
-      {(isOrderFailed || !success ) &&
+      {(isOrderFailed || !success) &&
         <>
           <p className={`${styles.identyfier} text text_type_main-default`}>Произошла ошибка!</p>
           <p className={`${styles.identyfier} text text_type_main-default`}>{message}</p>
@@ -40,7 +32,7 @@ const CreatedOrderDetails: FC<{orderItemsIds: Array<string>}> = ({orderItemsIds}
           <p className={`${styles.identyfier} text text text_type_main-small`}>Пока мы чиним ошибку, подумайте, как сделать Ваш бургер еще вкуснее!</p>
         </>
       }
-      { success &&
+      {success &&
         <>
           <p className={`${styles.number} text text_type_digits-large`}>{res.order.number}</p>
           <p className={`${styles.identyfier} text text_type_main-default`}>{res.name}</p>

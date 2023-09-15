@@ -10,8 +10,12 @@ import { TRefreshTokenActions } from "../redux/actions/refreshToken";
 import { TRegistrationActions } from "../redux/actions/registration";
 import { TResetPasswordActions } from "../redux/actions/resetPassword";
 import { TUserActions } from "../redux/actions/user";
-import { TWSActions } from '../redux/actions/webSocket';
+import { TFeedWSActions, TFeedWSMiddlewareActions } from '../redux/actions/feedWebSocket';
 import { store } from "../redux/store";
+import { TProfileWSActions, TProfileWSMiddlewareActions } from '../redux/actions/profileWebSocket';
+
+export type TWSMiddlewareActions = TFeedWSMiddlewareActions
+  | TProfileWSMiddlewareActions
 
 
 export type TApplicationActions = TCartActions
@@ -24,7 +28,9 @@ export type TApplicationActions = TCartActions
   | TRegistrationActions
   | TResetPasswordActions
   | TUserActions
-  | TWSActions
+  | TFeedWSActions
+  | TProfileWSActions
+  
 
 export type RootState = ReturnType<typeof store.getState>;
 

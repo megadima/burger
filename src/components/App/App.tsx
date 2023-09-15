@@ -19,6 +19,8 @@ import ProfileOrdersList from '../ProfileOrdersList/ProfileOrdersList';
 import WithWebSocket from '../WithWebSocket';
 import { WS_API } from '../../utils/burger-api';
 import { getCookie } from '../../utils/cookie';
+import { profileWSMiddlewareActions } from '../../services/redux/actions/profileWebSocket';
+import { feedWSMiddlewareActions } from '../../services/redux/actions/feedWebSocket';
 
 const App: FC = () => {
   const dispatch = useDispatch()
@@ -53,17 +55,17 @@ const App: FC = () => {
             {isOrderOpenedInModal &&
               <Route path=':orderId' element={
                 <Modal onClose={() => navigate(-1)}>
-                  <OrderDetailsPage />
+                  <OrderDetailsPage profile />
                 </Modal>
               } />
             }
           </Route>
         </Route>
-        {!isOrderOpenedInModal && 
+        {!isOrderOpenedInModal &&
           <Route path='/profile/orders/:orderId' element={
             <ProtectedRoute element={
-              <WithWebSocket url={`${WS_API}?token=${getCookie('accessToken')}`}>
-                <OrderDetailsPage />
+              <WithWebSocket url={`${WS_API}?token=${getCookie('accessToken')}`} WSMiddlewareActions={profileWSMiddlewareActions}>
+                <OrderDetailsPage profile />
               </WithWebSocket>
             } />
           } />
@@ -78,7 +80,13 @@ const App: FC = () => {
             } />
           }
         </Route>
-        {!isOrderOpenedInModal && <Route path='/feed/:orderId' element={<WithWebSocket url={`${WS_API}/all`}><OrderDetailsPage /></WithWebSocket>} />}
+        {!isOrderOpenedInModal &&
+          <Route path='/feed/:orderId' element={
+            <WithWebSocket url={`${WS_API}/all`} WSMiddlewareActions={feedWSMiddlewareActions}>
+              <OrderDetailsPage />
+            </WithWebSocket>
+          } />
+        }
 
       </Routes>
     </div>

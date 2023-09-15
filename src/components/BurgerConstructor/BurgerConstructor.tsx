@@ -13,18 +13,15 @@ import CartFillingItem from "../CartFillingItem/CartFillingItem";
 import { TCartElement, TIngredient } from "../../services/types/data";
 import { useDispatch, useSelector } from "../../services/hooks";
 import { TInitialBun } from "../../services/redux/reducers/cart";
-import { useNavigate } from "react-router-dom";
+import ProtectedRoute from "../ProtectedRoute";
 
 const BurgerConstructor: FC = () => {
   const [showModal, setShowModal] = useState(false);
 
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const currentBun = useSelector(store => store.cart.bun);
   const filling = useSelector(store => store.cart.filling);
-
-  const { user } = useSelector(store => store.user) 
 
   //у булочки нет ключа, поэтому проверяем на то, является ли это ингредиентом.
   const isBunIngredient = (item: any): item is TIngredient => {
@@ -63,14 +60,10 @@ const BurgerConstructor: FC = () => {
     dispatch(addToCartAction(item))
   }
 
-  const { isOrderRequest, isOrderFailed, res } = useSelector(store => store.order);
-  const onCheckoutClickHandler = (e: React.SyntheticEvent<Element, Event>): void => {
-    if (user) setShowModal(true)
-    else navigate('/login');
-  }
+  const { isOrderRequest, res } = useSelector(store => store.order);
 
   return (
-    <div ref={dropTargetRef} className={styles.container}>
+    <div ref={dropTargetRef} id='constructor' className={styles.container}>
       <div className={styles.bun}>
         <ConstructorElement
           type="top"
@@ -82,12 +75,18 @@ const BurgerConstructor: FC = () => {
       </div>
       <ul className={styles.list}>
         {!filling.length
-          ? <li style={{ textAlign: 'center' }}>
-            <p className="text text text_type_main-default">Перетяните сюда начинку (или булочку)</p>
-          </li>
-          : filling.map((elem: TCartElement, index: number) => (
-            <CartFillingItem elem={elem} index={index} key={elem.key} />
-          ))
+        
+          ? (
+            <li style={{ textAlign: 'center' }}>
+              <p className="text text text_type_main-default">Перетяните сюда начинку (или булочку)</p>
+            </li>
+          ) 
+          
+          : (
+            filling.map((elem: TCartElement, index: number) => (
+              <CartFillingItem elem={elem} index={index} key={elem.key} />
+            ))
+          )
         }
       </ul>
       <div className={styles.bun}>
@@ -108,19 +107,22 @@ const BurgerConstructor: FC = () => {
           htmlType="button"
           type="primary"
           size="large"
-          onClick={onCheckoutClickHandler}
+          onClick={() => setShowModal(true)}
         >
-          {isOrderRequest && !isOrderFailed ? "Загрузка" : "Оформить заказ"}
+          {isOrderRequest ? "Загрузка" : 'Оформить заказ'}
         </Button>
 
-        {showModal && 
+        {showModal &&
           <Modal onClose={() => {
             setShowModal(false)
             if (res?.success) dispatch(clearCartAction())
           }}>
             {currentBun.price
-              ? <CreatedOrderDetails orderItemsIds={orderItemsIds} />
-              : (
+              ? (
+                <ProtectedRoute element={
+                  <CreatedOrderDetails orderItemsIds={orderItemsIds} />
+                } />
+              ) : (
                 <p className="text text text_type_main-default" style={{ textAlign: 'center' }}>
                   Добавьте булочку
                 </p>

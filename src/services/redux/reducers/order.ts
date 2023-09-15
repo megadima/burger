@@ -3,7 +3,7 @@ import {
   SEND_ORDER_REQUEST,
   SEND_ORDER_SUCCESS,
   SEND_ORDER_FAILED,
-} from "../constatns";
+} from "../constatns/actionTypes";
 import { TOrderDetailsResponse, TResponseBody } from "../../types/responseTypes";
 
 export type TOrderState = {
@@ -27,15 +27,12 @@ export const orderReducer = (state = initialState, action: TOrderActions): TOrde
     case SEND_ORDER_REQUEST: {
       return {
         ...initialState,
-        isOrderFailed: false,
         isOrderRequest: true,
       };
     }
     case SEND_ORDER_SUCCESS: {
       return {
-        ...state,
-        isOrderRequest: false,
-        isOrderFailed: false,
+        ...initialState,
         number: action.number,
         res: action.res
       };
@@ -43,7 +40,6 @@ export const orderReducer = (state = initialState, action: TOrderActions): TOrde
     case SEND_ORDER_FAILED: {
       return {
         ...initialState,
-        isOrderRequest: false,
         isOrderFailed: true,
         message: action.message,
       };

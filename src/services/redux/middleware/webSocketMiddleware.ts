@@ -1,11 +1,10 @@
 import type { Middleware, MiddlewareAPI } from 'redux';
 import { getCookie } from '../../../utils/cookie';
-import { AppDispatch, RootState, TApplicationActions } from '../../types/redux';
+import { AppDispatch, RootState, TApplicationActions, TWSMiddlewareActions } from '../../types/redux';
 import { TResponseBody, TWSOrdersResponse } from '../../types/responseTypes';
-import { TWSStoreActions } from '../actions/webSocket';
 import { refreshToken } from '../actions/refreshToken';
 
-export const socketMiddleware = (wsActions: TWSStoreActions): Middleware => {
+export const socketMiddleware = (wsActions: TWSMiddlewareActions): Middleware => {
   return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
     let socket: WebSocket | null = null;
 
@@ -20,7 +19,6 @@ export const socketMiddleware = (wsActions: TWSStoreActions): Middleware => {
       }
       if (socket) {
         socket.onopen = event => {
-          // console.log('сокет открылся')
           dispatch({ type: onOpen, payload: event });
         };
 
@@ -38,7 +36,6 @@ export const socketMiddleware = (wsActions: TWSStoreActions): Middleware => {
         };
 
         socket.onclose = event => {
-          // console.log('сокет закрылся')
           dispatch({ type: onClose, payload: event });
         };
 

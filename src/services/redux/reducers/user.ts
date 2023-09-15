@@ -1,5 +1,5 @@
 import { TUserActions } from "../actions/user";
-import { CLEAR_USER, GET_USER_FAILED, GET_USER_REQUEST, GET_USER_SUCCESS, SET_USER } from "../constatns"
+import { CLEAR_USER, GET_USER_FAILED, GET_USER_REQUEST, GET_USER_SUCCESS, SET_USER } from "../constatns/actionTypes"
 import { TUser } from "../../types/data";
 
 export type TUserState = {
@@ -26,16 +26,13 @@ export const userReducer = (state = initialState, action: TUserActions): TUserSt
     }
     case GET_USER_SUCCESS: {
       return {
-        ...state,
-        isGetUserRequest: false,
-        isGetUserFailed: false,
+        ...initialState,
         user: action.user
       }
     }
     case GET_USER_FAILED: {
       return {
         ...initialState,
-        isGetUserRequest: false,
         isGetUserFailed: true,
         message: action.message
       }
@@ -47,7 +44,7 @@ export const userReducer = (state = initialState, action: TUserActions): TUserSt
       }
     }
     case CLEAR_USER: {
-      return{
+      return {
         ...initialState,
         message: state.message
       }

@@ -1,5 +1,5 @@
 import { TRefreshTokenActions } from "../actions/refreshToken"
-import { REFRESH_TOKEN_FAILED, REFRESH_TOKEN_SUCCESS, SEND_REFRESH_TOKEN_REQUEST } from "../constatns"
+import { REFRESH_TOKEN_FAILED, REFRESH_TOKEN_SUCCESS, SEND_REFRESH_TOKEN_REQUEST } from "../constatns/actionTypes"
 
 export type TRefreshTokenState = {
   refreshTokenRequest: boolean,
@@ -23,15 +23,12 @@ export const refreshTokenReducer = (state = initialState, action: TRefreshTokenA
     }
     case REFRESH_TOKEN_SUCCESS: {
       return {
-        ...state,
-        refreshTokenRequest: false,
-        refreshTokenFailed: false,
+        ...initialState
       }
     }
     case REFRESH_TOKEN_FAILED: {
       return {
-        ...state,
-        refreshTokenRequest: false,
+        ...initialState,
         refreshTokenFailed: true,
         message: action.message
       }
