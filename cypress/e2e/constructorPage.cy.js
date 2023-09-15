@@ -35,7 +35,7 @@ describe('check ConstructorPage', () => {
     })
 
     it("check drag'n'drop all items", () => {
-      let name; //for check if item contains in cart after d'n'd
+      let name; //for check item contains in cart after d'n'd
       cy.get('@ingredients').each(element => {
         cy.get(element).within(() => {
           cy.get('[data-testid="ingredient-name"]')
