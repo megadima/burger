@@ -1,31 +1,38 @@
-import React, { FC, useMemo } from 'react';
+import React, { FC, useEffect, useMemo } from 'react';
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from '../BurgerIngredients/BurgerIngredients.module.css';
 import IngredientsItem from '../IngredientsItem/IngredientsItem';
 import { BUN, MAIN, SAUCE } from '../helpers/IngredientCategories';
 import { TIngredient} from '../../services/types/data';
 import { useSelector } from '../../services/hooks';
+import { useRef } from 'react';
 
 const BurgersIngredients: FC = () => {
 
   const ingredients = useSelector(store => store.ingredients.ingredients)
-
+  
   const [currentTab, setCurrentTab] = React.useState<string>('buns');
   const buns = useMemo(() => ingredients.filter((el: TIngredient): boolean => el.type === BUN), [ingredients])
   const sauces = useMemo(() => ingredients.filter((el: TIngredient): boolean => el.type === SAUCE), [ingredients])
   const mains = useMemo(() => ingredients.filter((el: TIngredient): boolean => el.type === MAIN), [ingredients])
-
-  const scrollElement: {[name: string]: HTMLElement | null} = {
-    'buns': document.querySelector('#buns'),
-    'sauces': document.querySelector('#sauces'),
-    'mains': document.querySelector('#mains')
-  }
+  
+  //получаем список наших категорий после рендера
+  let scrollElement = useRef<{[name: string]: HTMLElement | null} | null>(null);
+  useEffect(() => {
+    scrollElement.current = {
+      'buns': document.querySelector('#buns'),
+      'sauces': document.querySelector('#sauces'),
+      'mains': document.querySelector('#mains')
+    }
+  }, [])
 
   const tabSelect = (tab: string): void => {
     const first: HTMLElement | null = document.getElementById('scrollList');
-    const second: HTMLElement | null = scrollElement[tab];
-    if ((first instanceof HTMLElement) && (second instanceof HTMLElement))
-      first.scrollTop = second.offsetTop-285;
+    if (scrollElement.current) {
+      const second: HTMLElement | null = scrollElement.current[tab];
+      if ((first instanceof HTMLElement) && (second instanceof HTMLElement))
+        first.scrollTop = second.offsetTop-285;
+    }
   };
 
   const countScrollDistance = (source: number, target: number): number => {
@@ -45,18 +52,20 @@ const BurgersIngredients: FC = () => {
       distance: null
     };
 
-    Object.entries(scrollElement)
-      .map(([tabName, value]) => value instanceof Element ? [tabName, value.getBoundingClientRect().y] : [tabName, null])
-      .forEach(([tabName, itemPosition]) => {
-        
-        if (typeof itemPosition === 'number') {
-          const distance: number = countScrollDistance(targetPosition, itemPosition)
-          if ((!closest.distance || distance < closest.distance) && (typeof tabName === "string")) {
-            closest = {key: tabName, distance}
+    if (scrollElement.current) {
+      Object.entries(scrollElement.current)
+        .map(([tabName, value]) => value instanceof Element ? [tabName, value.getBoundingClientRect().y] : [tabName, null])
+        .forEach(([tabName, itemPosition]) => {
+          
+          if (typeof itemPosition === 'number') {
+            const distance: number = countScrollDistance(targetPosition, itemPosition)
+            if ((!closest.distance || distance < closest.distance) && (typeof tabName === "string")) {
+              closest = {key: tabName, distance}
+          }
         }
-      }
-    })
-    setCurrentTab(closest.key)
+      })
+      setCurrentTab(closest.key)
+    }
   }
 
   return (
